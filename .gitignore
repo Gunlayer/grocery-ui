@@ -22,6 +22,7 @@ lib-cov
 coverage
 *.lcov
 
+<<<<<<< Updated upstream
 # nyc test coverage
 .nyc_output
 
@@ -114,3 +115,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+=======
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+/_work
+>>>>>>> Stashed changes
