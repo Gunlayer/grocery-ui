@@ -1,18 +1,18 @@
-import { Button } from "@mui/material";
-import React from "react";
+import { Button } from '@mui/material';
+import React from 'react';
 
 const kgbutton = {
-  color: "white",
-  textTransform: "none",
-  borderRadius: "15px",
+  color: 'white',
+  textTransform: 'none',
+  borderRadius: '15px',
 
   lineHeight: 0,
-  padding: "15px 8px",
-  fontSize: "1rem",
+  padding: '15px 8px',
+  fontSize: '1rem',
   minWidth: 0,
 };
 
-const KgButton = ({ kg }) => {
+const KgButton = ({ kg, units }) => {
   return (
     <Button
       variant="contained"
@@ -20,7 +20,7 @@ const KgButton = ({ kg }) => {
       disableElevation
       sx={kgbutton}
     >
-      {kg} Kg
+      {kg} {units}
     </Button>
   );
 };
