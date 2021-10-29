@@ -1,15 +1,15 @@
-import { Button } from "@mui/material";
+import { Button } from '@mui/material';
 
 const CommonButton = (props) => {
   const { text, padding, fontSize, onClick } = props;
 
   const buttonSx = {
-    borderRadius: "50px",
-    textTransform: "none",
-    color: "white",
+    borderRadius: '50px',
+    textTransform: 'none',
+    color: 'white',
     padding,
-    "&:hover": {
-      backgroundColor: "secondary.main",
+    '&:hover': {
+      backgroundColor: 'secondary.main',
     },
     fontSize,
   };
