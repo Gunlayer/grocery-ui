@@ -3,7 +3,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import logo from '../../../assets/logo.png';
 import Link from '@mui/material/Link';
 
-const logoStyle = { maxWidth: 148, marginRight: 0 };
+const logoStyle = { maxWidth: 148 };
 
 const LogoContainer = () => {
   const logoContainerStyle = {

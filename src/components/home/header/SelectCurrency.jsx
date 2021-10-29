@@ -3,21 +3,41 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-const formControlStyle = { marginLeft: 1, width: 80 };
+const formControlStyle = { width: 70 };
 
 const selectStyle = {
+  '& input': {
+    padding: 0,
+    border: 0,
+  },
+  '& .MuiSelect-select[aria-expanded="true"]': {
+    color: 'common.black',
+  },
+
   '&:hover': {
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: '1px solid #ccc',
+    '& .MuiSelect-iconOutlined': {
+      color: 'common.black',
+      transition: 'color 0.3s linear',
+    },
+    '& .MuiSelect-select': {
+      color: 'common.black',
+      transition: 'color 0.3s linear',
     },
   },
   '& .MuiSelect-select': {
-    padding: 1,
-
-    fontFamily: 'Open Sans',
+    color: 'common.white',
+    padding: 0,
+    transition: 'color 0.3s linear',
   },
   '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',
+  },
+  '& .MuiSelect-iconOutlined': {
+    color: 'common.white',
+    transition: 'color 0.3s linear',
+    '&.MuiSelect-iconOpen': {
+      color: 'common.black',
+    },
   },
 };
 

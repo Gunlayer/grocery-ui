@@ -7,6 +7,7 @@ const linkContainerStyle = {
   alignItems: 'center',
   color: 'common.white',
   '& :hover': {
+    transition: 'color 0.3s linear',
     color: 'common.black',
     cursor: 'pointer',
   },
@@ -14,7 +15,7 @@ const linkContainerStyle = {
 
 const linkStyle = {
   display: 'flex',
-  transition: 'all 0.3s linear',
+  transition: 'color 0.3s linear',
   textDecoration: 'none',
 };
 

@@ -4,6 +4,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import Typography from '@mui/material/Typography';
+import TopBarDivider from '../../../components/home/header/TopBarDivider';
 
 const textLinksContainerStyle = {
   display: 'flex',
@@ -43,16 +44,12 @@ const tel = (
   </Box>
 );
 
-const dividingLineStyle = { height: 20, borderRight: '1px solid white' };
-
-const dividingLine = <Box sx={dividingLineStyle}></Box>;
-
 const TopBarTextLinksContainer = () => {
   return (
     <Box sx={textLinksContainerStyle}>
-      <TopBarLink link={email} to="mailto:info@example.com" />
-      {useMediaQuery('(max-width:340px)') ? null : dividingLine}
       <TopBarLink link={tel} to="tel:0000 - 123456789" />
+      {useMediaQuery('(max-width:360px)') ? null : <TopBarDivider />}
+      <TopBarLink link={email} to="mailto:info@example.com" />
     </Box>
   );
 };
