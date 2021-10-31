@@ -1,8 +1,8 @@
-import { Box, Divider, Paper, Link, Typography } from '@mui/material';
-import LoginInput from '../../components/login/LoginInput';
+import { React, useState } from 'react';
+import { Box, Paper, Link, Typography } from '@mui/material';
+import RegistrationInput from '../../components/login/LoginInput';
+import RegistrationHeader from '../login/LoginHeader';
 import CommonButton from '../../components/common/buttons/CommonButton';
-import LoginHeader from './LoginHeader';
-import { useState } from 'react';
 
 const footerLinksStyle = {
   display: 'flex',
@@ -21,7 +21,7 @@ const footerLinkStyle = {
   },
 };
 
-const LoginContainer = () => {
+const RegistrationContainer = ({ title }) => {
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -80,10 +80,9 @@ const LoginContainer = () => {
 
     console.log('fetch Login API');
   };
-
   return (
     <>
-      <LoginHeader title={title} />
+      <RegistrationHeader title={title} />
       <Box
         sx={{
           display: 'flex',
@@ -121,7 +120,7 @@ const LoginContainer = () => {
             noValidate
             autoComplete="off"
           >
-            <LoginInput
+            <RegistrationInput
               label="Email"
               type="email"
               autoFocus={true}
@@ -129,7 +128,7 @@ const LoginContainer = () => {
               error={state.errorEmail}
               handleChange={handleChange}
             />
-            <LoginInput
+            <RegistrationInput
               label="Password"
               type="password"
               value={state.password}
@@ -138,21 +137,14 @@ const LoginContainer = () => {
             />
             <Box>
               <CommonButton
-                text="Sign In"
+                text="Create"
                 padding="7px 30px"
                 fontSize="16px"
                 onClick={handleClick}
               />
             </Box>
           </Box>
-          <Divider sx={{ marginTop: 3 }} />
           <Box sx={footerLinksStyle}>
-            <Link href="#" sx={footerLinkStyle}>
-              <Typography>Forgot your password?</Typography>
-            </Link>
-            <Link href="#" sx={footerLinkStyle}>
-              <Typography>Create account</Typography>
-            </Link>
             <Link href="#" sx={footerLinkStyle}>
               <Typography>Return to Store</Typography>
             </Link>
@@ -163,4 +155,4 @@ const LoginContainer = () => {
   );
 };
 
-export default LoginContainer;
+export default RegistrationContainer;
