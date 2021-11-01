@@ -1,8 +1,8 @@
 import { React, useState } from 'react';
 import { Box, Paper, Link, Typography } from '@mui/material';
 import RegistrationInput from '../../components/login/LoginInput';
-import RegistrationHeader from '../login/LoginHeader';
 import CommonButton from '../../components/common/buttons/CommonButton';
+import RegistrationHeader from './../../components/common/GreenPageHeader';
 
 const footerLinksStyle = {
   display: 'flex',
@@ -21,7 +21,7 @@ const footerLinkStyle = {
   },
 };
 
-const RegistrationContainer = ({ title }) => {
+const RegistrationContainer = () => {
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -82,7 +82,7 @@ const RegistrationContainer = ({ title }) => {
   };
   return (
     <>
-      <RegistrationHeader title={title} />
+      <RegistrationHeader title="Create Account" />
       <Box
         sx={{
           display: 'flex',

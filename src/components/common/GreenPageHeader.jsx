@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 
-const LoginHeader = ({ title }) => {
+const GreenPageHeader = ({ title }) => {
   return (
     <Box
       sx={{
@@ -23,4 +23,4 @@ const LoginHeader = ({ title }) => {
   );
 };
 
-export default LoginHeader;
+export default GreenPageHeader;

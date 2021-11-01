@@ -1,7 +1,7 @@
 import { Box, Divider, Paper, Link, Typography } from '@mui/material';
 import LoginInput from '../../components/login/LoginInput';
 import CommonButton from '../../components/common/buttons/CommonButton';
-import LoginHeader from './LoginHeader';
+import LoginHeader from './../../components/common/GreenPageHeader';
 import { useState } from 'react';
 
 const footerLinksStyle = {
@@ -83,7 +83,7 @@ const LoginContainer = () => {
 
   return (
     <>
-      <LoginHeader title={title} />
+      <LoginHeader title="Login" />
       <Box
         sx={{
           display: 'flex',
