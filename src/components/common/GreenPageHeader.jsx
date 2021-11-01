@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 
-const LoginHeader = () => {
+const GreenPageHeader = ({ title }) => {
   return (
     <Box
       sx={{
@@ -17,10 +17,10 @@ const LoginHeader = () => {
         color="common.white"
         sx={{ fontFamily: 'Lemonada' }}
       >
-        Login
+        {title}
       </Typography>
     </Box>
   );
 };
 
-export default LoginHeader;
+export default GreenPageHeader;
