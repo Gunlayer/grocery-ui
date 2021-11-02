@@ -1,10 +1,11 @@
-import { React, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Paper, Typography } from '@mui/material';
 import RegistrationInput from '../../components/login/LoginInput';
 import CommonButton from '../../components/common/buttons/CommonButton';
 import GreenPageHeader from './../../components/common/GreenPageHeader';
-import HeaderContainer from '../home/header/HeaderContainer';
+import { emailValidation } from '../../helpers/emailValidation';
+import { passwordValidation } from '../../helpers/passwordValidation';
 
 const footerLinksStyle = {
   display: 'flex',
@@ -40,47 +41,14 @@ const RegistrationContainer = () => {
   };
 
   const handleClick = () => {
-    if (state.email.trim() === '') {
-      setState({ ...state, errorEmail: 'Please enter e-mail address' });
-      return;
-    }
-
-    const regexEmail =
-      /^((\w[^\W]+)[.-]?){1,}@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gm;
-    const subst = ``;
-    const emailMatch = state.email.replace(regexEmail, subst);
-
-    const regexPassword = /^[a-z0-9]+$/i;
-    const passwordMatch = state.password.replace(regexPassword, subst);
-
-    if (emailMatch.length !== 0) {
-      setState({
-        ...state,
-        errorEmail: 'Please provide correct e-mail address',
-      });
-      return;
-    }
-
-    if (state.password.trim() === '') {
-      setState({ ...state, errorPassword: 'Please enter password' });
-      return;
-    }
-
     if (
-      passwordMatch.length !== 0 ||
-      state.password.length < 5 ||
-      state.password.length > 10
+      emailValidation(state, setState) &&
+      passwordValidation(state, setState)
     ) {
-      setState({
-        ...state,
-        errorPassword:
-          'Password must be at least 5 characters long, maximum 10 characters long, and can only contain letters and numbers',
-      });
-      return;
+      console.log('fetch Register API');
     }
-
-    console.log('fetch Login API');
   };
+
   return (
     <>
       <GreenPageHeader title="Create Account" />
