@@ -5,9 +5,8 @@ const kgbutton = {
   color: 'white',
   textTransform: 'none',
   borderRadius: '15px',
-
   lineHeight: 0,
-  padding: '15px 8px',
+  padding: '15px 5px',
   fontSize: '1rem',
   minWidth: 0,
 };
