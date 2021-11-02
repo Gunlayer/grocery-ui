@@ -25,7 +25,7 @@ const NavIconLinksContainer = () => {
 
   return (
     <Box sx={navIconLinksContainer}>
-      <NavIconLink link={accountBoxIcon} to="#" />
+      <NavIconLink link={accountBoxIcon} to="/account/login" />
       <NavIconLink link={shoppingCartIcon} to="#" />
       <ShoppingCartBadge />
       <NavIconLink link={favoriteIcon} to="#" />

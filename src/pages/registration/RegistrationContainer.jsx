@@ -1,8 +1,10 @@
 import { React, useState } from 'react';
-import { Box, Paper, Link, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Box, Paper, Typography } from '@mui/material';
 import RegistrationInput from '../../components/login/LoginInput';
 import CommonButton from '../../components/common/buttons/CommonButton';
-import RegistrationHeader from './../../components/common/GreenPageHeader';
+import GreenPageHeader from './../../components/common/GreenPageHeader';
+import HeaderContainer from '../home/header/HeaderContainer';
 
 const footerLinksStyle = {
   display: 'flex',
@@ -10,14 +12,13 @@ const footerLinksStyle = {
   gap: 6,
   rowGap: 2,
   marginTop: 3,
-};
-
-const footerLinkStyle = {
-  textDecoration: 'none',
-  color: 'common.black',
-  transition: 'color 0.3s linear',
-  '&:hover': {
-    color: 'primary.main',
+  '& a': {
+    textDecoration: 'none',
+    color: 'common.black',
+    transition: 'color 1s linear',
+    '&:hover': {
+      color: 'primary.main',
+    },
   },
 };
 
@@ -82,7 +83,8 @@ const RegistrationContainer = () => {
   };
   return (
     <>
-      <RegistrationHeader title="Create Account" />
+      <HeaderContainer />
+      <GreenPageHeader title="Create Account" />
       <Box
         sx={{
           display: 'flex',
@@ -145,7 +147,7 @@ const RegistrationContainer = () => {
             </Box>
           </Box>
           <Box sx={footerLinksStyle}>
-            <Link href="#" sx={footerLinkStyle}>
+            <Link to="/">
               <Typography>Return to Store</Typography>
             </Link>
           </Box>

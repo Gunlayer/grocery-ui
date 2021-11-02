@@ -1,7 +1,8 @@
-import { Box, Divider, Paper, Link, Typography } from '@mui/material';
+import { Box, Divider, Paper, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import LoginInput from '../../components/login/LoginInput';
 import CommonButton from '../../components/common/buttons/CommonButton';
-import LoginHeader from './../../components/common/GreenPageHeader';
+import GreenPageHeader from './../../components/common/GreenPageHeader';
 import { useState } from 'react';
 
 const footerLinksStyle = {
@@ -10,14 +11,13 @@ const footerLinksStyle = {
   gap: 6,
   rowGap: 2,
   marginTop: 3,
-};
-
-const footerLinkStyle = {
-  textDecoration: 'none',
-  color: 'common.black',
-  transition: 'color 0.3s linear',
-  '&:hover': {
-    color: 'primary.main',
+  '& a': {
+    textDecoration: 'none',
+    color: 'common.black',
+    transition: 'color 1s linear',
+    '&:hover': {
+      color: 'primary.main',
+    },
   },
 };
 
@@ -83,7 +83,7 @@ const LoginContainer = () => {
 
   return (
     <>
-      <LoginHeader title="Login" />
+      <GreenPageHeader title="Login" />
       <Box
         sx={{
           display: 'flex',
@@ -147,13 +147,13 @@ const LoginContainer = () => {
           </Box>
           <Divider sx={{ marginTop: 3 }} />
           <Box sx={footerLinksStyle}>
-            <Link href="#" sx={footerLinkStyle}>
+            <Link to="#">
               <Typography>Forgot your password?</Typography>
             </Link>
-            <Link href="#" sx={footerLinkStyle}>
+            <Link to="/account/register">
               <Typography>Create account</Typography>
             </Link>
-            <Link href="#" sx={footerLinkStyle}>
+            <Link to="/">
               <Typography>Return to Store</Typography>
             </Link>
           </Box>

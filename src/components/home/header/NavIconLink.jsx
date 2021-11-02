@@ -1,30 +1,27 @@
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 
 const linkContainerStyle = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   color: 'common.black',
-  '& :hover': {
-    color: 'primary.main',
-    cursor: 'pointer',
+  '& a': {
+    color: 'inherit',
+    display: 'flex',
+    transition: 'color 0.3s linear',
+    padding: 1,
+    textDecoration: 'none',
+    '&:hover': {
+      color: 'primary.main',
+    },
   },
-};
-
-const linkStyle = {
-  display: 'flex',
-  transition: 'all 0.3s linear',
-  padding: 1,
-  textDecoration: 'none',
 };
 
 const NavIconLink = ({ link, to }) => {
   return (
     <Box sx={linkContainerStyle}>
-      <Link href={to} color="inherit" sx={linkStyle}>
-        {link}
-      </Link>
+      <Link to={to}>{link}</Link>
     </Box>
   );
 };

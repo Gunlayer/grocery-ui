@@ -10,6 +10,7 @@ const GreenPageHeader = ({ title }) => {
         backgroundColor: 'primary.main',
         width: '100%',
         height: '100px',
+        marginTop: 4,
       }}
     >
       <Typography
