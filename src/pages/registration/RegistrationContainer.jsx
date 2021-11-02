@@ -83,7 +83,6 @@ const RegistrationContainer = () => {
   };
   return (
     <>
-      <HeaderContainer />
       <GreenPageHeader title="Create Account" />
       <Box
         sx={{

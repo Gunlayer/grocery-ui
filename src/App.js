@@ -1,7 +1,7 @@
 import HomePage from './pages/home/HomePage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginPage from './pages/login/LoginPage';
-import RegistrationContainer from './pages/registration/RegistrationContainer';
+import RegistrationPage from './pages/registration/RegistrationPage';
 
 const App = () => {
   return (
@@ -11,7 +11,7 @@ const App = () => {
           <LoginPage />
         </Route>
         <Route exact path="/account/register">
-          <RegistrationContainer />
+          <RegistrationPage />
         </Route>
         <Route path="/">
           <HomePage />
