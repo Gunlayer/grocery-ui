@@ -10,7 +10,6 @@ const MostPopularProductList = () => {
   const [productList, setProductList] = useState([]);
   const getData = async (API) => {
     const response = await axios.get(API);
-    console.log(response.data);
     setProductList(response.data);
   };
 
@@ -30,7 +29,7 @@ const MostPopularProductList = () => {
     >
       {productList.map((item) => (
         <Grid key={item.id} item xs={12} sm={6} xl={2}>
-          <MostPopularProduct key={item.id} productItem={item} />
+          <MostPopularProduct productItem={item} />
         </Grid>
       ))}
     </Grid>

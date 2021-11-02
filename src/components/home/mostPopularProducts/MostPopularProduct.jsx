@@ -47,8 +47,9 @@ const kgBoxSx = {
 const cardNameSx = {
   fontSize: '1.5rem',
   fontWeight: 600,
-  letterSpacing: '2px',
+  letterSpacing: '1px',
   marginTop: '10px',
+  textAlign: 'center',
 };
 const ratingSx = {
   color: 'black',
@@ -85,6 +86,7 @@ const MostPopularProduct = ({ productItem }) => {
           <Box sx={kgBoxSx}>
             {productItem.sizes.map((item) => (
               <KgButton
+                key={productItem.sizes.indexOf(item)}
                 units={productItem.sizeType === 'KILOS' ? 'Kg' : 'Pcs'}
                 kg={item}
               />
