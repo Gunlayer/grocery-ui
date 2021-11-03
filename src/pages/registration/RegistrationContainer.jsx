@@ -16,7 +16,7 @@ const footerLinksStyle = {
   '& a': {
     textDecoration: 'none',
     color: 'common.black',
-    transition: 'color 1s linear',
+    transition: 'color 0.3s linear',
     '&:hover': {
       color: 'primary.main',
     },

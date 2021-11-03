@@ -1,19 +1,19 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
   typography: {
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    fontFamily: "'Open Sans', 'Roboto', 'Helvetica', 'Arial', sans-serif",
   },
   palette: {
-    mode: "light",
+    mode: 'light',
     primary: {
-      main: "#89c74a",
+      main: '#89c74a',
     },
     secondary: {
-      main: "#ff6600",
+      main: '#ff6600',
     },
     lightGreen: {
-      main: "#e0ffc0",
+      main: '#e0ffc0',
     },
   },
 });
