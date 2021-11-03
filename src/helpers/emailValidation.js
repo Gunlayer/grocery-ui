@@ -17,7 +17,7 @@ export const emailValidation = (state, setState) => {
     return false;
   }
 
-  if (state.email.length < 5 || state.email.length > 25) {
+  if (state.email.length < 5 || state.email.length > 35) {
     setState({
       ...state,
       errorEmail:
