@@ -1,5 +1,5 @@
 export const passwordValidation = (state, setState) => {
-  const regexPassword = /^[a-zA-Z0-9!@#$%^&*()_+~`\-=\\\/|\[\]{};:'",<.>?]*$/gm;
+  const regexPassword = /^[a-zA-Z0-9!@#$%^&*()_+~`\-=\\/|[\]{};:'",<.>?]*$/gm;
   const subst = ``;
   const passwordMatch = state.password.replace(regexPassword, subst);
 

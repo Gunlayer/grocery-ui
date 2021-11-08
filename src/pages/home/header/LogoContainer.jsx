@@ -1,7 +1,7 @@
 import Box from '@mui/system/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import logo from '../../../assets/logo.png';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 
 const logoStyle = { maxWidth: 148 };
 
@@ -13,7 +13,7 @@ const LogoContainer = () => {
 
   return (
     <Box sx={logoContainerStyle}>
-      <Link href="#">
+      <Link to="/">
         <Box component="img" alt="Groca logo" src={logo} sx={logoStyle} />
       </Link>
       <Box sx={{ width: 32 }}></Box>

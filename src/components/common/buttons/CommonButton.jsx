@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 
 const CommonButton = (props) => {
-  const { text, padding, fontSize, onClick } = props;
+  const { padding, fontSize, children } = props;
 
   const buttonSx = {
     borderRadius: '50px',
@@ -20,9 +20,9 @@ const CommonButton = (props) => {
       color="primary"
       disableElevation
       sx={buttonSx}
-      onClick={onClick}
+      {...props}
     >
-      {text}
+      {children}
     </Button>
   );
 };

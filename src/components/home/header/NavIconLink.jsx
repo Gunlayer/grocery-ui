@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 
@@ -18,12 +19,16 @@ const linkContainerStyle = {
   },
 };
 
-const NavIconLink = ({ link, to }) => {
-  return (
+const NavIconLink = ({ link, to, tooltip, onClick }) => {
+  const iconLink = (
     <Box sx={linkContainerStyle}>
-      <Link to={to}>{link}</Link>
+      <Link onClick={onClick} to={to}>
+        {link}
+      </Link>
     </Box>
   );
+
+  return tooltip ? <Tooltip title={tooltip}>{iconLink}</Tooltip> : iconLink;
 };
 
 export default NavIconLink;

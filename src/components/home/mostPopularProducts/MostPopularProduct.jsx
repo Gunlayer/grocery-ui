@@ -1,4 +1,3 @@
-import React from 'react';
 import Box from '@mui/system/Box';
 import {
   Card,
@@ -28,7 +27,6 @@ const cardContentSx = {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: 0,
-  maxWidth: '200px',
   '&:last-child': {
     paddingBottom: 0,
   },
@@ -41,8 +39,8 @@ const boxSx = {
 const kgBoxSx = {
   marginTop: '20px',
   display: 'flex',
-  justifyContent: 'space-between',
-  width: '100%',
+  justifyContent: 'center',
+  gap: '15px',
 };
 const cardNameSx = {
   fontSize: '1.5rem',
@@ -106,7 +104,7 @@ const MostPopularProduct = ({ productItem }) => {
             {`$${priceCheck(productItem.price)}`}
           </Typography>
           <CardActions sx={{ marginTop: '20px' }}>
-            <CommonButton text="Add To Cart" padding="10px 35px" />
+            <CommonButton padding="10px 35px">{'Add to Cart'}</CommonButton>
           </CardActions>
         </Box>
       </CardContent>

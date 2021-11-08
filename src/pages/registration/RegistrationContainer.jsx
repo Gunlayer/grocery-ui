@@ -1,29 +1,29 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import { Box, Paper, Typography } from '@mui/material';
 import RegistrationInput from '../../components/login/LoginInput';
 import CommonButton from '../../components/common/buttons/CommonButton';
 import GreenPageHeader from './../../components/common/GreenPageHeader';
+import ButtonSpinner from '../../components/common/ButtonSpinner';
+import AuthErrorAlert from '../../components/common/AuthErrorAlert';
 import { emailValidation } from '../../helpers/emailValidation';
 import { passwordValidation } from '../../helpers/passwordValidation';
-
-const footerLinksStyle = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: 6,
-  rowGap: 2,
-  marginTop: 3,
-  '& a': {
-    textDecoration: 'none',
-    color: 'common.black',
-    transition: 'color 0.3s linear',
-    '&:hover': {
-      color: 'primary.main',
-    },
-  },
-};
+import { setIsAuth, setError } from '../../redux/slices/authSlice';
+import { setLoading } from '../../redux/slices/registrationSlice';
+import {
+  pageContainerStyle,
+  formContainerStyle,
+  formStyle,
+  footerLinksStyle,
+} from '../../components/common/styles/loginAndRegistrationStyles';
 
 const RegistrationContainer = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.registration.loading);
+
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -40,55 +40,52 @@ const RegistrationContainer = () => {
     });
   };
 
-  const handleClick = () => {
+  const { email, password } = state;
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+
     if (
       emailValidation(state, setState) &&
       passwordValidation(state, setState)
     ) {
-      console.log('fetch Register API');
+      try {
+        dispatch(setLoading(true));
+
+        const response = await axios.post('/api/registration', {
+          email,
+          password,
+        });
+
+        if (response.status === 200) {
+          dispatch(
+            setIsAuth({
+              email: response.data.email,
+              token: response.data.token,
+              isAuth: true,
+            })
+          );
+          history.push('/');
+        }
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          if (err && err.response) {
+            dispatch(setError(err.response.data.message));
+          }
+        }
+      } finally {
+        dispatch(setLoading(false));
+      }
     }
   };
 
   return (
     <>
+      <AuthErrorAlert />
       <GreenPageHeader title="Create Account" />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minWidth: 320,
-          paddingLeft: { xs: 4, lg: 10 },
-          paddingRight: { xs: 4, lg: 10 },
-          paddingTop: 10,
-          paddingBottom: 10,
-        }}
-      >
-        <Paper
-          elevation={0}
-          sx={{
-            padding: 3,
-            paddingTop: 5,
-            paddingBottom: 4,
-            width: '100%',
-            maxWidth: 600,
-            backgroundColor: '#f7f7f7',
-          }}
-        >
-          <Box
-            component="form"
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 4,
-              '& > :not(style)': {
-                width: '100%',
-              },
-            }}
-            noValidate
-            autoComplete="off"
-          >
+      <Box sx={pageContainerStyle}>
+        <Paper elevation={0} sx={formContainerStyle}>
+          <Box component="form" sx={formStyle} noValidate autoComplete="off">
             <RegistrationInput
               label="Email"
               type="email"
@@ -106,11 +103,15 @@ const RegistrationContainer = () => {
             />
             <Box>
               <CommonButton
-                text="Create"
                 padding="7px 30px"
                 fontSize="16px"
                 onClick={handleClick}
-              />
+                type="submit"
+                disabled={loading}
+              >
+                {'Create'}
+                {loading && <ButtonSpinner />}
+              </CommonButton>
             </Box>
           </Box>
           <Box sx={footerLinksStyle}>
