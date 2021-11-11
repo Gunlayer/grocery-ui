@@ -1,6 +1,11 @@
 import { Badge } from '@mui/material';
 
-const ShoppingCartBadge = () => {
+const ShoppingCartBadge = ({ cart }) => {
+  const counter = () => {
+    const reducer = (acc, item) => acc + item.quantity;
+    return cart.cartItems.reduce(reducer, 0);
+  };
+
   return (
     <Badge
       sx={{
@@ -11,7 +16,7 @@ const ShoppingCartBadge = () => {
           color: 'common.white',
         },
       }}
-      badgeContent={5}
+      badgeContent={counter()}
       color="primary"
     />
   );

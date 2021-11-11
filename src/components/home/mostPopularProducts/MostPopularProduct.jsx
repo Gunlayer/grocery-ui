@@ -9,6 +9,9 @@ import {
 } from '@mui/material';
 import KgButton from './KgButton';
 import CommonButton from '../../common/buttons/CommonButton';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../../redux/slices/cartSlice';
+import { useState } from 'react';
 
 //Components style setup
 const cardSx = {
@@ -62,13 +65,27 @@ const cardPriceSx = {
 };
 
 const MostPopularProduct = ({ productItem }) => {
-  const priceCheck = (price) => {
-    if (price % Math.trunc(price) === 0) {
-      return Math.trunc(price);
-    } else {
-      return price;
-    }
+  const [active, setActive] = useState(0);
+  const dispatch = useDispatch();
+  const { id, name, price, image, sizeType, sizes } = productItem;
+
+  const addToCartClickHandler = () => {
+    const product = {
+      productId: id,
+      name,
+      price,
+      image,
+      sizeType,
+      size: sizes[active],
+      quantity: 1,
+    };
+    dispatch(addItem(product));
   };
+
+  const sizeClickHandle = (index) => {
+    setActive(index);
+  };
+
   return (
     <Card variant="outlined" sx={cardSx}>
       <CardContent sx={cardContentSx}>
@@ -82,11 +99,14 @@ const MostPopularProduct = ({ productItem }) => {
             />
           </Box>
           <Box sx={kgBoxSx}>
-            {productItem.sizes.map((item) => (
+            {productItem.sizes.map((item, index) => (
               <KgButton
-                key={productItem.sizes.indexOf(item)}
+                index={index}
+                active={index === active ? true : false}
+                key={index}
                 units={productItem.sizeType === 'KILOS' ? 'Kg' : 'Pcs'}
-                kg={item}
+                value={item}
+                onClick={sizeClickHandle}
               />
             ))}
           </Box>
@@ -101,10 +121,12 @@ const MostPopularProduct = ({ productItem }) => {
             sx={ratingSx}
           />
           <Typography color="primary" sx={cardPriceSx}>
-            {`$${priceCheck(productItem.price)}`}
+            {productItem.price.toFixed(2)}
           </Typography>
           <CardActions sx={{ marginTop: '20px' }}>
-            <CommonButton padding="10px 35px">{'Add to Cart'}</CommonButton>
+            <CommonButton padding="10px 35px" onClick={addToCartClickHandler}>
+              {'Add to Cart'}
+            </CommonButton>
           </CardActions>
         </Box>
       </CardContent>
