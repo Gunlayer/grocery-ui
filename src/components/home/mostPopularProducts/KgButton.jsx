@@ -10,15 +10,16 @@ const kgbutton = {
   minWidth: 0,
 };
 
-const KgButton = ({ kg, units }) => {
+const KgButton = ({ value, units, onClick, index, active }) => {
   return (
     <Button
       variant="contained"
-      color="secondary"
+      color={active ? 'primary' : 'secondary'}
       disableElevation
       sx={kgbutton}
+      onClick={() => onClick(index)}
     >
-      {kg} {units}
+      {value} {units}
     </Button>
   );
 };

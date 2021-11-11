@@ -9,12 +9,10 @@ const MostPopularProductList = () => {
   const dispatch = useDispatch();
 
   const loading = useSelector((state) => state.auth.loading);
-  const token = useSelector((state) => state.auth.token);
-  const email = useSelector((state) => state.auth.email);
+  //const token = useSelector((state) => state.auth.token);
+  // const email = useSelector((state) => state.auth.email);
 
-  const API =
-    // 'https://raw.githubusercontent.com/Gunlayer/traning/main/dashnoard.json';
-    '/api/products/mostpopular';
+  const API = '/api/products/mostpopular';
 
   const [productList, setProductList] = useState([]);
 
@@ -54,8 +52,8 @@ const MostPopularProductList = () => {
         minWidth: 320,
       }}
     >
-      {productList.map((item) => (
-        <Grid key={item.id} item xs={12} sm={6} xl={2}>
+      {productList.map((item, index) => (
+        <Grid key={index} item xs={12} sm={6} xl={2}>
           <MostPopularProduct productItem={item} />
         </Grid>
       ))}

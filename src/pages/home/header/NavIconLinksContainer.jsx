@@ -9,6 +9,7 @@ import ShoppingCartBadge from '../../../components/home/header/ShoppingCartBadge
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { logOut } from '../../../redux/slices/authSlice';
+import { setAnchorEl, setIsEmpty } from '../../../redux/slices/cartSlice';
 import axios from 'axios';
 
 const navIconStyle = {
@@ -23,6 +24,7 @@ const favoriteIcon = <FavoriteIcon sx={navIconStyle} />;
 const NavIconLinksContainer = () => {
   const email = useSelector((state) => state.auth.email);
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const cart = useSelector((state) => state.cart);
 
   const [authState, setAuthState] = useState(false);
 
@@ -47,6 +49,12 @@ const NavIconLinksContainer = () => {
     }
   };
 
+  const dialogueCartClickHandler = (event) => {
+    cart.cartItems.length
+      ? dispatch(setAnchorEl(event.currentTarget))
+      : dispatch(setIsEmpty(event.currentTarget));
+  };
+
   return (
     <Box sx={navIconLinksContainer}>
       <NavIconLink
@@ -55,8 +63,12 @@ const NavIconLinksContainer = () => {
         to={authState ? '/account/logout' : '/account/login'}
         onClick={handleClick}
       />
-      <NavIconLink link={shoppingCartIcon} to="#" />
-      <ShoppingCartBadge />
+      <NavIconLink
+        link={shoppingCartIcon}
+        onClick={dialogueCartClickHandler}
+        to="#"
+      />
+      <ShoppingCartBadge cart={cart} />
       <NavIconLink link={favoriteIcon} to="#" />
     </Box>
   );
