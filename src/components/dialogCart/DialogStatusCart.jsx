@@ -7,16 +7,36 @@ const DialogStatusCart = () => {
   const cart = useSelector((state) => state.cart);
 
   const handleClose = () => {
-    dispatch(setIsEmpty(false));
+    dispatch(setIsEmpty(null));
   };
 
   if (cart.isEmpty) {
     setTimeout(() => {
-      dispatch(setIsEmpty(false));
+      dispatch(setIsEmpty(null));
     }, 1000);
   }
 
-  return <div></div>;
+  return (
+    <Popover
+      open={Boolean(cart.isEmpty)}
+      anchorEl={cart.isEmpty}
+      onClose={handleClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+    >
+      <Box sx={{ width: '320px', padding: '10px 20px' }}>
+        <Typography sx={{ textAlign: 'center' }}>
+          Your cart is currently empty.
+        </Typography>
+      </Box>
+    </Popover>
+  );
 };
 
 export default DialogStatusCart;
