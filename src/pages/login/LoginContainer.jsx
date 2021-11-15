@@ -18,11 +18,13 @@ import {
   formStyle,
   footerLinksStyle,
 } from '../../components/common/styles/loginAndRegistrationStyles';
+import { rewriteCart } from '../../redux/slices/cartSlice';
 
 const LoginContainer = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.login.loading);
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   const [state, setState] = useState({
     email: '',
@@ -55,6 +57,7 @@ const LoginContainer = () => {
         const response = await axios.post('/api/auth/login', {
           email,
           password,
+          cartItems,
         });
 
         if (response.status === 200) {
@@ -66,6 +69,8 @@ const LoginContainer = () => {
             })
           );
           history.push('/');
+
+          dispatch(rewriteCart(response.data.cartItems));
         }
       } catch (err) {
         if (axios.isAxiosError(err)) {

@@ -22,9 +22,10 @@ const DialogCartItem = ({ cartItem }) => {
       container
       sx={{
         marginBottom: '10px',
+        width: { xs: '270px', md: '300px' },
       }}
     >
-      <Grid item xs={4}>
+      <Grid item xs={3}>
         <Box sx={{ width: '70px' }}>
           <CardMedia
             component="img"
@@ -34,7 +35,7 @@ const DialogCartItem = ({ cartItem }) => {
           />
         </Box>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={6}>
         <Typography sx={{ fontWeight: 700 }}>{cartItem.name}</Typography>
         <Typography>
           {cartItem.quantity} x {cartItem.price.toFixed(2)} USD

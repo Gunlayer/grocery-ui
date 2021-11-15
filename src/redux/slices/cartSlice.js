@@ -42,9 +42,13 @@ export const cart = createSlice({
         : state.cartItems.push(action.payload);
       localStorage.setItem('cart', JSON.stringify(state.cartItems));
     },
+    rewriteCart: (state, action) => {
+      state.cartItems = action.payload;
+    },
   },
 });
 
-export const { setAnchorEl, setIsEmpty, deleteItem, addItem } = cart.actions;
+export const { setAnchorEl, setIsEmpty, deleteItem, addItem, rewriteCart } =
+  cart.actions;
 
 export default cart.reducer;

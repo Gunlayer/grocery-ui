@@ -10,9 +10,10 @@ import {
 import KgButton from './KgButton';
 import CommonButton from '../../common/buttons/CommonButton';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../../redux/slices/cartSlice';
 import { useState } from 'react';
+import axios from 'axios';
 
 //Components style setup
 const cardSx = {
@@ -72,8 +73,13 @@ const cardPriceSx = {
 };
 
 const MostPopularProduct = ({ productItem }) => {
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const userEmail = useSelector((state) => state.auth.email);
+
   const [active, setActive] = useState(0);
+
   const dispatch = useDispatch();
+
   const { id, name, price, image, sizeType, sizes } = productItem;
 
   const addToCartClickHandler = () => {
@@ -87,6 +93,14 @@ const MostPopularProduct = ({ productItem }) => {
       quantity: 1,
     };
     dispatch(addItem(product));
+    if (isAuth) {
+      axios.post('/api/cart', {
+        productId: product.productId,
+        size: product.size,
+        quantity: product.quantity,
+        userEmail,
+      });
+    }
   };
 
   const sizeClickHandle = (index) => {
