@@ -7,6 +7,7 @@ export const initialState = {
   counter: 0,
   anchorEl: null,
   isEmpty: null,
+  totalQuantity: 0,
 };
 
 export const cart = createSlice({
@@ -28,6 +29,8 @@ export const cart = createSlice({
       if (state.cartItems.length === 0) {
         state.anchorEl = null;
       }
+      const reducer = (acc, item) => acc + item.quantity;
+      state.totalQuantity = state.cartItems.reduce(reducer, 0);
       localStorage.setItem('cart', JSON.stringify(state.cartItems));
     },
     addItem: (state, action) => {
@@ -38,8 +41,10 @@ export const cart = createSlice({
       );
       const index = state.cartItems.indexOf(match);
       match
-        ? (state.cartItems[index].quantity += action.payload.quantity)
+        ? (state.cartItems[index].quantity = action.payload.quantity)
         : state.cartItems.push(action.payload);
+      const reducer = (acc, item) => acc + item.quantity;
+      state.totalQuantity = state.cartItems.reduce(reducer, 0);
       localStorage.setItem('cart', JSON.stringify(state.cartItems));
     },
   },

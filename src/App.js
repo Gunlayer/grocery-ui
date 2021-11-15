@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import LoginPage from './pages/login/LoginPage';
 import RegistrationPage from './pages/registration/RegistrationPage';
+import CartPage from './pages/cart/CartPage';
 import ProductDetailsPage from './pages/productDetails/ProductDetailsPage';
 
 const App = () => {
@@ -21,6 +22,9 @@ const App = () => {
         </Route>
         <Route exact path="/account/register">
           <RegistrationPage />
+        </Route>
+        <Route exact path="/cart">
+          <CartPage />
         </Route>
         <Route exact path="/products/:productId">
           <ProductDetailsPage />

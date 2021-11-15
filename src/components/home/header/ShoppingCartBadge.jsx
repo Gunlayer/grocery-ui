@@ -1,10 +1,8 @@
 import { Badge } from '@mui/material';
+import { useSelector } from 'react-redux';
 
-const ShoppingCartBadge = ({ cart }) => {
-  const counter = () => {
-    const reducer = (acc, item) => acc + item.quantity;
-    return cart.cartItems.reduce(reducer, 0);
-  };
+const ShoppingCartBadge = () => {
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
   return (
     <Badge
@@ -16,7 +14,7 @@ const ShoppingCartBadge = ({ cart }) => {
           color: 'common.white',
         },
       }}
-      badgeContent={counter()}
+      badgeContent={totalQuantity}
       color="primary"
     />
   );

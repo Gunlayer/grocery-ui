@@ -82,7 +82,7 @@ const DialogCartContainer = () => {
             {'Checkout'}
           </CommonButton>
           <Link to="/cart" style={{ textDecoration: 'none' }}>
-            <CommonButton>
+            <CommonButton onClick={() => dispatch(setAnchorEl(null))}>
               <ShoppingBasketIcon
                 fontSize="small"
                 sx={{ paddingRight: '5px' }}

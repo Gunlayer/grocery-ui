@@ -68,7 +68,7 @@ const NavIconLinksContainer = () => {
         onClick={dialogueCartClickHandler}
         to="#"
       />
-      <ShoppingCartBadge cart={cart} />
+      <ShoppingCartBadge />
       <NavIconLink link={favoriteIcon} to="#" />
     </Box>
   );
