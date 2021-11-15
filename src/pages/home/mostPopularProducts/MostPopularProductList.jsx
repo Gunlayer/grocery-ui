@@ -11,27 +11,7 @@ const mostPopularProductListContainerStyle = {
 };
 
 const MostPopularProductList = () => {
-<<<<<<< HEAD
-  const dispatch = useDispatch();
-
-  const loading = useSelector((state) => state.auth.loading);
-  //const token = useSelector((state) => state.auth.token);
-  // const email = useSelector((state) => state.auth.email);
-
-  const API = '/api/products/mostpopular';
-
-  const [productList, setProductList] = useState([]);
-
-  const getData = async (API) => {
-    dispatch(setLoading(true));
-
-    try {
-      const response = await axios.get(
-        'https://raw.githubusercontent.com/Gunlayer/traning/main/dashnoard.json'
-      );
-=======
   const mostPopularProducts = useMostPopularProducts();
->>>>>>> 4c0c7bf349f9ad059c129b5b309f3b73bdbbe60b
 
   if (mostPopularProducts.isLoading) {
     return <Spinner />;
