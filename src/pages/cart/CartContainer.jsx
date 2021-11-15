@@ -63,7 +63,7 @@ const CartContainer = () => {
         </Typography>
       </Box>
       {cart.cartItems.map((item, index) => (
-        <CartItem key={index} cartItem={item} />
+        <CartItem key={`${item.name}_${item.size}`} cartItem={item} />
       ))}
       <CommonButton fontSize={'16px'} padding={'10px 0'} width="170px">
         <Link style={goToShopBtn} to="/shop">
@@ -90,7 +90,7 @@ const CartContainer = () => {
         No items in cart
       </Typography>
       <Typography sx={{ margin: '0 0 25px' }}>
-        Add the products you want to buy{' '}
+        Add the products you want to buy
       </Typography>
       <CommonButton padding={'11px 30px'} fontSize={'16px'}>
         <Link style={goToShopBtn} to="/">

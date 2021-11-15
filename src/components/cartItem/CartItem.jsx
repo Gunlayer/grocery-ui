@@ -57,7 +57,7 @@ const CartItem = ({ cartItem }) => {
       if (!Number.isNaN(+number) && number > 0 && number < 100) {
         dispatch(addItem({ ...cartItem, quantity: +number }));
       }
-    } else dispatch(addItem({ ...cartItem, quantity: +1 }));
+    } else dispatch(addItem({ ...cartItem, quantity: 1 }));
   };
 
   return (
