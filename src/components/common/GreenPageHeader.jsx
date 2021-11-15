@@ -11,6 +11,7 @@ const GreenPageHeader = ({ title }) => {
         width: '100%',
         height: '100px',
         marginTop: 4,
+        minWidth: 320,
       }}
     >
       <Typography

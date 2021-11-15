@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import KgButton from './KgButton';
 import CommonButton from '../../common/buttons/CommonButton';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../../redux/slices/cartSlice';
 import { useState } from 'react';
@@ -24,6 +25,7 @@ const cardSx = {
     borderColor: 'primary.main',
   },
 };
+
 const cardContentSx = {
   display: 'flex',
   flexDirection: 'column',
@@ -34,17 +36,20 @@ const cardContentSx = {
     paddingBottom: 0,
   },
 };
+
 const boxSx = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
 };
+
 const kgBoxSx = {
   marginTop: '20px',
   display: 'flex',
   justifyContent: 'center',
   gap: '15px',
 };
+
 const cardNameSx = {
   fontSize: '1.5rem',
   fontWeight: 600,
@@ -52,12 +57,14 @@ const cardNameSx = {
   marginTop: '10px',
   textAlign: 'center',
 };
+
 const ratingSx = {
   color: 'black',
   fontSize: '18px',
-  marginTop: '20px',
-  marginBottom: '20px',
+  marginTop: '10px',
+  marginBottom: '10px',
 };
+
 const cardPriceSx = {
   fontSize: '1.5rem',
   fontWeight: 600,
@@ -90,21 +97,24 @@ const MostPopularProduct = ({ productItem }) => {
     <Card variant="outlined" sx={cardSx}>
       <CardContent sx={cardContentSx}>
         <Box sx={boxSx}>
-          <Box>
-            <CardMedia
-              component="img"
-              width="100%"
-              image={productItem.image}
-              alt="product"
-            />
-          </Box>
+          <Link to={`/products/${productItem.id}`}>
+            <Box>
+              <CardMedia
+                component="img"
+                width="100%"
+                image={productItem.image}
+                alt="product"
+                sx={{ ':hover': { cursor: 'pointer' } }}
+              />
+            </Box>
+          </Link>
           <Box sx={kgBoxSx}>
             {productItem.sizes.map((item, index) => (
               <KgButton
                 index={index}
                 active={index === active ? true : false}
                 key={index}
-                units={productItem.sizeType === 'KILOS' ? 'Kg' : 'Pcs'}
+                units={productItem.sizeType === 'KILOS' ? 'kg' : 'pcs'}
                 value={item}
                 onClick={sizeClickHandle}
               />
@@ -117,13 +127,13 @@ const MostPopularProduct = ({ productItem }) => {
             name="half-rating-read"
             readOnly
             value={productItem.rating}
-            precision={0.5}
+            precision={0.1}
             sx={ratingSx}
           />
           <Typography color="primary" sx={cardPriceSx}>
-            {productItem.price.toFixed(2)}
+            {`$${productItem.price.toFixed(2)}`}
           </Typography>
-          <CardActions sx={{ marginTop: '20px' }}>
+          <CardActions sx={{ marginTop: '10px' }}>
             <CommonButton padding="10px 35px" onClick={addToCartClickHandler}>
               {'Add to Cart'}
             </CommonButton>
