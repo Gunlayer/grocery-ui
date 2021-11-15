@@ -23,6 +23,7 @@ const RegistrationContainer = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.registration.loading);
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   const [state, setState] = useState({
     email: '',
@@ -55,6 +56,7 @@ const RegistrationContainer = () => {
         const response = await axios.post('/api/registration', {
           email,
           password,
+          cartItems,
         });
 
         if (response.status === 200) {

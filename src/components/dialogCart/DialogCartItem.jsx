@@ -1,9 +1,12 @@
 import { Button, CardMedia, Grid, Typography, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem } from '../../redux/slices/cartSlice';
+import { deleteFromCartRequest } from '../../helpers/deleteFromCartRequest';
 
 const DialogCartItem = ({ cartItem }) => {
+  const userEmail = useSelector((state) => state.auth.email);
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const dispatch = useDispatch();
 
   const sizeTypes = {
@@ -15,6 +18,12 @@ const DialogCartItem = ({ cartItem }) => {
     dispatch(
       deleteItem({ productId: cartItem.productId, size: cartItem.size })
     );
+    deleteFromCartRequest({
+      isAuth,
+      userEmail,
+      size: cartItem.size,
+      productId: cartItem.productId,
+    });
   };
 
   return (
@@ -22,6 +31,7 @@ const DialogCartItem = ({ cartItem }) => {
       container
       sx={{
         marginBottom: '10px',
+        width: { xs: '270px', md: '300px' },
       }}
     >
       <Grid item xs={4}>

@@ -41,15 +41,20 @@ export const cart = createSlice({
       );
       const index = state.cartItems.indexOf(match);
       match
-        ? (state.cartItems[index].quantity = action.payload.quantity)
+        ? (state.cartItems[index].quantity += action.payload.quantity)
         : state.cartItems.push(action.payload);
       const reducer = (acc, item) => acc + item.quantity;
       state.totalQuantity = state.cartItems.reduce(reducer, 0);
       localStorage.setItem('cart', JSON.stringify(state.cartItems));
     },
+    rewriteCart: (state, action) => {
+      state.cartItems = action.payload;
+      state.totalQuantity = state.cartItems.quantity;
+    },
   },
 });
 
-export const { setAnchorEl, setIsEmpty, deleteItem, addItem } = cart.actions;
+export const { setAnchorEl, setIsEmpty, deleteItem, addItem, rewriteCart } =
+  cart.actions;
 
 export default cart.reducer;

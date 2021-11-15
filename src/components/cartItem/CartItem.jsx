@@ -1,12 +1,14 @@
 import { Box } from '@mui/system';
 import ProductQuantity from './ProductQuantity';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem, addItem } from '../../redux/slices/cartSlice';
 import ProductImage from './ProductImage';
 import ProductName from './ProductName';
 import ProductSize from './ProductSize';
 import ProductPrice from './ProductPrice';
 import ProductTotalPrice from './ProductTotalPrice';
+import { addToCartRequest } from '../../helpers/addToCartRequest';
+import { deleteFromCartRequest } from '../../helpers/deleteFromCartRequest';
 
 const cartStyle = {
   display: 'flex',
@@ -33,31 +35,81 @@ const cardRightSide = {
 
 const CartItem = ({ cartItem }) => {
   const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const userEmail = useSelector((state) => state.auth.email);
+
   const { image, name, price, productId, quantity, size, sizeType } = cartItem;
 
   const deleteCartItemHandle = () => {
     dispatch(deleteItem({ productId, size }));
   };
 
-  const handleDecreaseQuantity = () => {
-    if (quantity > 1) {
-      dispatch(addItem({ ...cartItem, quantity: +quantity - 1 }));
-    }
+  const product = {
+    productId,
+    name,
+    price,
+    quantity: 0,
+    size,
+    sizeType,
+    image,
   };
 
   const handleIncreaseQuantity = () => {
     if (quantity < 99) {
-      dispatch(addItem({ ...cartItem, quantity: +quantity + 1 }));
+      product.quantity += 1;
+      dispatch(addItem(product));
+      addToCartRequest({
+        isAuth,
+        userEmail,
+        productId,
+        size,
+        quantity: 1,
+      });
+    }
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (quantity > 1) {
+      product.quantity -= 1;
+      dispatch(addItem(product));
+      deleteFromCartRequest({
+        isAuth,
+        userEmail,
+        productId,
+        size,
+        quantity: 1,
+      });
     }
   };
 
   const handleQuantityChange = (e) => {
-    const number = e.target.value;
-    if (number !== '') {
-      if (!Number.isNaN(+number) && number > 0 && number < 100) {
-        dispatch(addItem({ ...cartItem, quantity: +number }));
+    let number = e.target.value;
+    if (number === '') {
+      number = 1;
+    }
+
+    if (!Number.isNaN(+number) && +number > 0 && +number < 100) {
+      product.quantity = +number - cartItem.quantity;
+      dispatch(addItem(product));
+      if (product.quantity > 0) {
+        addToCartRequest({
+          isAuth,
+          userEmail,
+          productId,
+          size,
+          quantity: product.quantity,
+        });
       }
-    } else dispatch(addItem({ ...cartItem, quantity: 1 }));
+      if (product.quantity < 0) {
+        deleteFromCartRequest({
+          isAuth,
+          userEmail,
+          productId,
+          size,
+          quantity: -product.quantity,
+        });
+      }
+    }
   };
 
   return (

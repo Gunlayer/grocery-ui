@@ -9,11 +9,21 @@ import { Link } from 'react-router-dom';
 
 const cartItemContainer = {
   maxHeight: '310px',
-  width: { xs: '280px', md: '320' },
+  boxSizing: 'border-box',
+  width: { xs: '300px', md: '320px' },
   overflowY: 'auto',
   overflowX: 'hidden',
   '::-webkit-scrollbar': {
-    display: 'none',
+    width: '8px',
+  },
+  '::-webkit-scrollbar-track': {
+    background: '#f1f1f1',
+    borderRadius: '5px',
+  },
+  '::-webkit-scrollbar-thumb': {
+    margin: '20px',
+    background: '#89c74a',
+    borderRadius: '5px',
   },
 };
 
@@ -61,10 +71,13 @@ const DialogCartContainer = () => {
             marginBottom: '10px',
           }}
         >
-          <Typography sx={{ fontWeight: 700 }}>CART TOTAL:</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 400 }}>
+            CART TOTAL:
+          </Typography>
           <Typography
             color="primary"
-            sx={{ fontWeight: 700, marginLeft: '10px' }}
+            variant="h5"
+            sx={{ fontWeight: 400, marginLeft: '10px' }}
           >
             {getTotalPrice().toFixed(2)} USD
           </Typography>

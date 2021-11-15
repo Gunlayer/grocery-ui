@@ -14,7 +14,7 @@ import ProductSubtotalPrice from '../../components/productDetails/ProductSubtota
 import AddToCartButton from '../../components/productDetails/AddToCartButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../redux/slices/cartSlice';
-import axios from 'axios';
+import { addToCartRequest } from '../../helpers/addToCartRequest';
 
 const productDetailsContainerStyle = {
   display: 'flex',
@@ -43,7 +43,7 @@ const ProductDetailsContainer = () => {
   const dispatch = useDispatch();
 
   const isAuth = useSelector((state) => state.auth.isAuth);
-  const userEmail = useSelector((state) => state.auth.userEmail);
+  const userEmail = useSelector((state) => state.auth.email);
 
   useEffect(() => {
     productDetailsContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -73,10 +73,10 @@ const ProductDetailsContainer = () => {
   };
 
   const handleQuantityChange = (e) => {
-    const number = e.target.value;
+    const number = +e.target.value;
     if (number !== '') {
-      if (!Number.isNaN(+number) && number > 0 && number < 100) {
-        setQuantity(+number);
+      if (!Number.isNaN(number) && number > 0 && number < 100) {
+        setQuantity(number);
       }
     } else setQuantity('');
   };
@@ -97,16 +97,13 @@ const ProductDetailsContainer = () => {
     };
 
     dispatch(addItem(product));
-    if (isAuth) {
-      axios.post('/api/cart', {
-        body: {
-          productId: product.id,
-          size: product.size,
-          quantity: product.quantity,
-          userEmail,
-        },
-      });
-    }
+    addToCartRequest({
+      isAuth,
+      productId: product.productId,
+      size: product.size,
+      quantity: product.quantity,
+      userEmail,
+    });
   };
 
   const columnStyle = {
