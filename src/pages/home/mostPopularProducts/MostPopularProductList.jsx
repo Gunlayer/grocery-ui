@@ -20,7 +20,9 @@ const MostPopularProductList = () => {
     dispatch(setLoading(true));
 
     try {
-      const response = await axios.get(API);
+      const response = await axios.get(
+        'https://raw.githubusercontent.com/Gunlayer/traning/main/dashnoard.json'
+      );
 
       if (response.status === 200) {
         setProductList(response.data);
