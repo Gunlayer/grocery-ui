@@ -36,7 +36,7 @@ const CartItem = ({ cartItem }) => {
   const { image, name, price, productId, quantity, size, sizeType } = cartItem;
 
   const deleteCartItemHandle = () => {
-    dispatch(deleteItem({ productId: productId, size: size }));
+    dispatch(deleteItem({ productId, size }));
   };
 
   const handleDecreaseQuantity = () => {
@@ -45,7 +45,7 @@ const CartItem = ({ cartItem }) => {
     }
   };
 
-  const handleIncreaseQuantity = (e) => {
+  const handleIncreaseQuantity = () => {
     if (quantity < 99) {
       dispatch(addItem({ ...cartItem, quantity: +quantity + 1 }));
     }
@@ -57,7 +57,7 @@ const CartItem = ({ cartItem }) => {
       if (!Number.isNaN(+number) && number > 0 && number < 100) {
         dispatch(addItem({ ...cartItem, quantity: +number }));
       }
-    } else dispatch(addItem({ ...cartItem, quantity: +0 }));
+    } else dispatch(addItem({ ...cartItem, quantity: +1 }));
   };
 
   return (

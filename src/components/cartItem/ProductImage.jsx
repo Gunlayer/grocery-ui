@@ -1,5 +1,4 @@
-import { CardMedia } from '@mui/material';
-import { Box } from '@mui/system';
+import { CardMedia, Box } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const cardLeftSide = {
@@ -24,23 +23,21 @@ const deleteItemButton = {
 
 const ProductImage = ({ image, name, deleteCartItemHandle }) => {
   return (
-    <>
-      <Box sx={cardLeftSide}>
-        <Box sx={{ position: 'relative' }}>
-          <CardMedia
-            component="img"
-            width="100%"
-            image={image}
-            alt={`image of ${name}`}
-          />
-          <HighlightOffIcon
-            fontSize="large"
-            sx={deleteItemButton}
-            onClick={deleteCartItemHandle}
-          />
-        </Box>
+    <Box sx={cardLeftSide}>
+      <Box sx={{ position: 'relative' }}>
+        <CardMedia
+          component="img"
+          width="100%"
+          image={image}
+          alt={`image of ${name}`}
+        />
+        <HighlightOffIcon
+          fontSize="large"
+          sx={deleteItemButton}
+          onClick={deleteCartItemHandle}
+        />
       </Box>
-    </>
+    </Box>
   );
 };
 
