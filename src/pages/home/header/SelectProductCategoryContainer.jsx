@@ -3,7 +3,6 @@ import SelectProductCategory from '../../../components/home/header/SelectProduct
 const SelectProductCategoryContainer = () => {
   const handleChange = (e, setProductCategory) => {
     setProductCategory(e.target.value);
-    console.log(e.target.value);
   };
 
   const values = [

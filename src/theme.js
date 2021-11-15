@@ -15,5 +15,17 @@ export const theme = createTheme({
     lightGreen: {
       main: '#e0ffc0',
     },
+    grey20: {
+      main: '#ccc',
+    },
+    grey40: {
+      main: '#999',
+    },
+    grey60: {
+      main: '#666',
+    },
+    grey80: {
+      main: '#333',
+    },
   },
 });

@@ -1,6 +1,6 @@
 import { Button, CardMedia, Grid, Typography, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteItem } from '../../redux/slices/cartSlice';
 
 const DialogCartItem = ({ cartItem }) => {

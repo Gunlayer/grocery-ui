@@ -7,7 +7,7 @@ const kgbutton = {
   lineHeight: 0,
   padding: '15px 5px',
   fontSize: '1rem',
-  minWidth: 0,
+  minWidth: '60px',
 };
 
 const KgButton = ({ value, units, onClick, index, active }) => {
