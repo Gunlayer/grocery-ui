@@ -1,9 +1,12 @@
 import { Button, CardMedia, Grid, Typography, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem } from '../../redux/slices/cartSlice';
+import { deleteFromCartRequest } from '../../helpers/deleteFromCartRequest';
 
 const DialogCartItem = ({ cartItem }) => {
+  const userEmail = useSelector((state) => state.auth.email);
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const dispatch = useDispatch();
 
   const sizeTypes = {
@@ -15,6 +18,12 @@ const DialogCartItem = ({ cartItem }) => {
     dispatch(
       deleteItem({ productId: cartItem.productId, size: cartItem.size })
     );
+    deleteFromCartRequest({
+      isAuth,
+      userEmail,
+      size: cartItem.size,
+      productId: cartItem.productId,
+    });
   };
 
   return (
@@ -25,7 +34,7 @@ const DialogCartItem = ({ cartItem }) => {
         width: { xs: '270px', md: '300px' },
       }}
     >
-      <Grid item xs={3}>
+      <Grid item xs={4}>
         <Box sx={{ width: '70px' }}>
           <CardMedia
             component="img"
@@ -35,7 +44,7 @@ const DialogCartItem = ({ cartItem }) => {
           />
         </Box>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={5}>
         <Typography sx={{ fontWeight: 700 }}>{cartItem.name}</Typography>
         <Typography>
           {cartItem.quantity} x {cartItem.price.toFixed(2)} USD

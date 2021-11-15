@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../../redux/slices/cartSlice';
 import { useState } from 'react';
-import axios from 'axios';
+import { addToCartRequest } from '../../../helpers/addToCartRequest';
 
 //Components style setup
 const cardSx = {
@@ -93,14 +93,14 @@ const MostPopularProduct = ({ productItem }) => {
       quantity: 1,
     };
     dispatch(addItem(product));
-    if (isAuth) {
-      axios.post('/api/cart', {
-        productId: product.productId,
-        size: product.size,
-        quantity: product.quantity,
-        userEmail,
-      });
-    }
+
+    addToCartRequest({
+      isAuth,
+      productId: product.productId,
+      size: product.size,
+      quantity: product.quantity,
+      userEmail,
+    });
   };
 
   const sizeClickHandle = (index) => {

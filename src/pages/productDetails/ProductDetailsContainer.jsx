@@ -14,7 +14,7 @@ import ProductSubtotalPrice from '../../components/productDetails/ProductSubtota
 import AddToCartButton from '../../components/productDetails/AddToCartButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../redux/slices/cartSlice';
-import axios from 'axios';
+import { addToCartRequest } from '../../helpers/addToCartRequest';
 
 const productDetailsContainerStyle = {
   display: 'flex',
@@ -97,14 +97,13 @@ const ProductDetailsContainer = () => {
     };
 
     dispatch(addItem(product));
-    if (isAuth) {
-      axios.post('/api/cart', {
-        productId: product.productId,
-        size: product.size,
-        quantity: product.quantity,
-        userEmail,
-      });
-    }
+    addToCartRequest({
+      isAuth,
+      productId: product.productId,
+      size: product.size,
+      quantity: product.quantity,
+      userEmail,
+    });
   };
 
   const columnStyle = {
