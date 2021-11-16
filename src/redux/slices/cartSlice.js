@@ -1,5 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const counter = (cart) => {
+  const reducer = (acc, item) => acc + item.quantity;
+  return cart.reduce(reducer, 0);
+};
+const saveInStore = (cart) => {
+  localStorage.setItem('cart', JSON.stringify(cart));
+};
+
 export const initialState = {
   cartItems: localStorage.getItem('cart')
     ? JSON.parse(localStorage.getItem('cart'))
@@ -29,9 +37,8 @@ export const cart = createSlice({
       if (state.cartItems.length === 0) {
         state.anchorEl = null;
       }
-      const reducer = (acc, item) => acc + item.quantity;
-      state.totalQuantity = state.cartItems.reduce(reducer, 0);
-      localStorage.setItem('cart', JSON.stringify(state.cartItems));
+      state.totalQuantity = counter(state.cartItems);
+      saveInStore(state.cartItems);
     },
     addItem: (state, action) => {
       const match = state.cartItems.find(
@@ -43,13 +50,13 @@ export const cart = createSlice({
       match
         ? (state.cartItems[index].quantity += action.payload.quantity)
         : state.cartItems.push(action.payload);
-      const reducer = (acc, item) => acc + item.quantity;
-      state.totalQuantity = state.cartItems.reduce(reducer, 0);
-      localStorage.setItem('cart', JSON.stringify(state.cartItems));
+      state.totalQuantity = counter(state.cartItems);
+      saveInStore(state.cartItems);
     },
     rewriteCart: (state, action) => {
       state.cartItems = action.payload;
-      state.totalQuantity = state.cartItems.quantity;
+      state.totalQuantity = counter(state.cartItems);
+      saveInStore(state.cartItems);
     },
   },
 });

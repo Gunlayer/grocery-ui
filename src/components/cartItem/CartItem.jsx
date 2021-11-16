@@ -35,8 +35,8 @@ const cardRightSide = {
 
 const CartItem = ({ cartItem }) => {
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.auth.isAuth);
-  const userEmail = useSelector((state) => state.auth.email);
+  const auth = useSelector((state) => state.auth);
+  const { token, isAuth, email } = auth;
 
   const { image, name, price, productId, quantity, size, sizeType } = cartItem;
 
@@ -59,8 +59,9 @@ const CartItem = ({ cartItem }) => {
       product.quantity += 1;
       dispatch(addItem(product));
       addToCartRequest({
+        token,
         isAuth,
-        userEmail,
+        email,
         productId,
         size,
         quantity: 1,
@@ -73,8 +74,9 @@ const CartItem = ({ cartItem }) => {
       product.quantity -= 1;
       dispatch(addItem(product));
       deleteFromCartRequest({
+        token,
         isAuth,
-        userEmail,
+        email,
         productId,
         size,
         quantity: 1,
@@ -93,8 +95,9 @@ const CartItem = ({ cartItem }) => {
       dispatch(addItem(product));
       if (product.quantity > 0) {
         addToCartRequest({
+          token,
           isAuth,
-          userEmail,
+          email,
           productId,
           size,
           quantity: product.quantity,
@@ -102,8 +105,9 @@ const CartItem = ({ cartItem }) => {
       }
       if (product.quantity < 0) {
         deleteFromCartRequest({
+          token,
           isAuth,
-          userEmail,
+          email,
           productId,
           size,
           quantity: -product.quantity,

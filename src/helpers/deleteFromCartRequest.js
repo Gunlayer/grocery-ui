@@ -1,15 +1,20 @@
 import axios from 'axios';
 
 export const deleteFromCartRequest = (product) => {
-  const { productId, size, quantity, userEmail, isAuth } = product;
+  const { productId, size, quantity, email, isAuth, token } = product;
 
   if (isAuth) {
-    axios.delete('/api/cart', {
+    axios({
+      method: 'delete',
+      url: '/api/cart',
+      headers: {
+        Authorization: token,
+      },
       data: {
         productId,
         size,
         quantity,
-        userEmail,
+        userEmail: email,
       },
     });
   }
