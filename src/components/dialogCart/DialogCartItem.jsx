@@ -6,8 +6,9 @@ import { deleteFromCartRequest } from '../../helpers/deleteFromCartRequest';
 import { Link } from 'react-router-dom';
 
 const DialogCartItem = ({ cartItem, handleClose }) => {
-  const userEmail = useSelector((state) => state.auth.email);
-  const isAuth = useSelector((state) => state.auth.isAuth);
+  const auth = useSelector((state) => state.auth);
+  const { token, isAuth, email } = auth;
+
   const dispatch = useDispatch();
 
   const sizeTypes = {
@@ -20,8 +21,9 @@ const DialogCartItem = ({ cartItem, handleClose }) => {
       deleteItem({ productId: cartItem.productId, size: cartItem.size })
     );
     deleteFromCartRequest({
+      token,
       isAuth,
-      userEmail,
+      email,
       size: cartItem.size,
       productId: cartItem.productId,
     });

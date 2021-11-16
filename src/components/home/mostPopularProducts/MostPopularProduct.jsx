@@ -73,8 +73,8 @@ const cardPriceSx = {
 };
 
 const MostPopularProduct = ({ productItem }) => {
-  const isAuth = useSelector((state) => state.auth.isAuth);
-  const userEmail = useSelector((state) => state.auth.email);
+  const auth = useSelector((state) => state.auth);
+  const { token, isAuth, email } = auth;
 
   const [active, setActive] = useState(0);
 
@@ -95,11 +95,12 @@ const MostPopularProduct = ({ productItem }) => {
     dispatch(addItem(product));
 
     addToCartRequest({
+      token,
       isAuth,
       productId: product.productId,
       size: product.size,
       quantity: product.quantity,
-      userEmail,
+      email,
     });
   };
 
