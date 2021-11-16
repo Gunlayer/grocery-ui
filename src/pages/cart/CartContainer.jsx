@@ -8,9 +8,12 @@ import { useSelector } from 'react-redux';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 const cartContainerStyle = {
-  maxWidth: '1230px',
-  padding: '0 15px',
-  margin: '0 auto',
+  // maxWidth: '1230px',
+  paddingTop: 10,
+  paddingBottom: 10,
+  paddingLeft: { xs: 4, lg: 10 },
+  paddingRight: { xs: 4, lg: 10 },
+  // margin: '0 auto',
 };
 
 const cartWrapperStyle = {
@@ -21,7 +24,7 @@ const cartWrapperStyle = {
 
 const cartStyle = {
   width: '100%',
-  padding: '80px 0px 15px 0px',
+  paddingBottom: '15px',
   display: 'flex',
   alignItems: 'baseline',
   borderBottom: '1px solid #dadada',
@@ -62,7 +65,7 @@ const CartContainer = () => {
           <ShoppingBasketIcon sx={{ paddingTop: '10px' }} fontSize="medium" />
         </Typography>
       </Box>
-      {cart.cartItems.map((item, index) => (
+      {cart.cartItems.map((item) => (
         <CartItem key={`${item.name}_${item.size}`} cartItem={item} />
       ))}
       <CommonButton fontSize={'16px'} padding={'10px 0'} width="170px">

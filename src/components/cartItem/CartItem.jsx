@@ -27,9 +27,11 @@ const cardRightSide = {
   flexDirection: 'column',
   marginLeft: '30px',
   gap: '1.1em',
+  alignItems: 'flex-start',
   '@media (max-width: 750px)': {
     paddingTop: '20px',
     fontSize: '20px',
+    alignItems: 'center',
   },
 };
 
@@ -116,12 +118,13 @@ const CartItem = ({ cartItem }) => {
     <div>
       <Box sx={cartStyle}>
         <ProductImage
+          productId={productId}
           name={name}
           image={image}
           deleteCartItemHandle={deleteCartItemHandle}
         />
         <Box sx={cardRightSide}>
-          <ProductName name={name} />
+          <ProductName productId={productId} name={name} />
           <ProductSize size={size} sizeType={sizeType} />
           <ProductPrice price={price} />
           <ProductQuantity

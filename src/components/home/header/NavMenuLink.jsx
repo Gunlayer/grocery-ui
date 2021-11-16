@@ -13,6 +13,7 @@ const linkStyle = {
 
 const linkTextStyle = {
   fontFamily: 'Lemonada',
+  fontWeight: 600,
   fontSize: '14px',
   color: 'common.black',
   transition: 'all 0.3s linear',

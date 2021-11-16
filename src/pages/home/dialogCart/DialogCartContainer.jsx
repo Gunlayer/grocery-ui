@@ -22,7 +22,7 @@ const cartItemContainer = {
   },
   '::-webkit-scrollbar-thumb': {
     margin: '20px',
-    background: '#89c74a',
+    backgroundColor: 'primary.main',
     borderRadius: '5px',
   },
 };
@@ -60,6 +60,7 @@ const DialogCartContainer = () => {
             <DialogCartItem
               key={cart.cartItems.indexOf(item)}
               cartItem={item}
+              handleClose={handleClose}
             />
           ))}
         </Box>
@@ -72,7 +73,7 @@ const DialogCartContainer = () => {
           }}
         >
           <Typography variant="h5" sx={{ fontWeight: 400 }}>
-            CART TOTAL:
+            TOTAL:
           </Typography>
           <Typography
             color="primary"

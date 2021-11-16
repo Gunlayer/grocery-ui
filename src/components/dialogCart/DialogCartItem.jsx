@@ -3,8 +3,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem } from '../../redux/slices/cartSlice';
 import { deleteFromCartRequest } from '../../helpers/deleteFromCartRequest';
+import { Link } from 'react-router-dom';
 
-const DialogCartItem = ({ cartItem }) => {
+const DialogCartItem = ({ cartItem, handleClose }) => {
   const userEmail = useSelector((state) => state.auth.email);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const dispatch = useDispatch();
@@ -36,16 +37,36 @@ const DialogCartItem = ({ cartItem }) => {
     >
       <Grid item xs={4}>
         <Box sx={{ width: '70px' }}>
-          <CardMedia
-            component="img"
-            width="100%"
-            image={cartItem.image}
-            alt={`image of ${cartItem.name}`}
-          />
+          <Link to={`/products/${cartItem.productId}`} onClick={handleClose}>
+            <CardMedia
+              component="img"
+              width="100%"
+              image={cartItem.image}
+              alt={`image of ${cartItem.name}`}
+            />
+          </Link>
         </Box>
       </Grid>
       <Grid item xs={5}>
-        <Typography sx={{ fontWeight: 700 }}>{cartItem.name}</Typography>
+        <Link
+          to={`/products/${cartItem.productId}`}
+          style={{ textDecoration: 'none' }}
+          onClick={handleClose}
+        >
+          <Typography
+            sx={{
+              fontWeight: 700,
+              color: 'common.black',
+              transition: 'color 0.3s',
+              display: 'inline-block',
+              ':hover': {
+                color: 'primary.main',
+              },
+            }}
+          >
+            {cartItem.name}
+          </Typography>
+        </Link>
         <Typography>
           {cartItem.quantity} x {cartItem.price.toFixed(2)} USD
         </Typography>

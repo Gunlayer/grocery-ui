@@ -7,6 +7,7 @@ const mostPopularProductListContainerStyle = {
   paddingLeft: { xs: 4, lg: 10 },
   paddingRight: { xs: 4, lg: 10 },
   marginTop: '50px',
+  marginBottom: '50px',
   minWidth: 320,
 };
 

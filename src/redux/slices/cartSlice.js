@@ -7,7 +7,12 @@ export const initialState = {
   counter: 0,
   anchorEl: null,
   isEmpty: null,
-  totalQuantity: 0,
+  totalQuantity: localStorage.getItem('cart')
+    ? JSON.parse(localStorage.getItem('cart')).reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      )
+    : 0,
 };
 
 export const cart = createSlice({
