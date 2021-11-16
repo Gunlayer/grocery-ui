@@ -47,7 +47,7 @@ const ProductDetailsContainer = () => {
 
   useEffect(() => {
     productDetailsContainerRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [product]);
+  }, [product.data]);
 
   if (product.isLoading) {
     return <Spinner />;

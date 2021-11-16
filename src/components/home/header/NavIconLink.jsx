@@ -19,9 +19,9 @@ const linkContainerStyle = {
   },
 };
 
-const NavIconLink = ({ link, to, tooltip, onClick }) => {
+const NavIconLink = ({ link, to, tooltip, onClick, id }) => {
   const iconLink = (
-    <Box sx={linkContainerStyle}>
+    <Box id={`navIconLink_${id}`} sx={linkContainerStyle}>
       <Link onClick={onClick} to={to}>
         {link}
       </Link>

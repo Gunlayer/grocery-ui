@@ -50,6 +50,7 @@ const InputSearch = () => {
         />
       </Box>
       <Button
+        id="searchButton"
         color="primary"
         variant="contained"
         disableElevation

@@ -1,5 +1,4 @@
-import Box from '@mui/system/Box';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Box, useMediaQuery } from '@mui/material';
 import NavIconLink from '../../../components/home/header/NavIconLink';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -9,7 +8,11 @@ import ShoppingCartBadge from '../../../components/home/header/ShoppingCartBadge
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { logOut } from '../../../redux/slices/authSlice';
-import { setAnchorEl, setIsEmpty } from '../../../redux/slices/cartSlice';
+import {
+  rewriteCart,
+  setAnchorEl,
+  setIsEmpty,
+} from '../../../redux/slices/cartSlice';
 import axios from 'axios';
 
 const navIconStyle = {
@@ -42,9 +45,10 @@ const NavIconLinksContainer = () => {
     setAuthState(isAuth);
   }, [isAuth]);
 
-  const handleClick = () => {
+  const handleLogOut = () => {
     if (authState === true) {
       dispatch(logOut());
+      dispatch(rewriteCart([]));
       axios.post('/api/auth/logout');
     }
   };
@@ -61,15 +65,17 @@ const NavIconLinksContainer = () => {
         tooltip={email}
         link={authState ? logOutIcon : accountBoxIcon}
         to={authState ? '/account/logout' : '/account/login'}
-        onClick={handleClick}
+        onClick={handleLogOut}
+        id="loginButton"
       />
       <NavIconLink
         link={shoppingCartIcon}
         onClick={dialogueCartClickHandler}
         to="#"
+        id="shoppingCart"
       />
       <ShoppingCartBadge />
-      <NavIconLink link={favoriteIcon} to="#" />
+      <NavIconLink link={favoriteIcon} to="#" id="favorite" />
     </Box>
   );
 };

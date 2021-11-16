@@ -1,5 +1,6 @@
 import { CardMedia, Box } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { Link } from 'react-router-dom';
 
 const cardLeftSide = {
   width: '200px',
@@ -21,16 +22,18 @@ const deleteItemButton = {
   },
 };
 
-const ProductImage = ({ image, name, deleteCartItemHandle }) => {
+const ProductImage = ({ productId, image, name, deleteCartItemHandle }) => {
   return (
     <Box sx={cardLeftSide}>
       <Box sx={{ position: 'relative' }}>
-        <CardMedia
-          component="img"
-          width="100%"
-          image={image}
-          alt={`image of ${name}`}
-        />
+        <Link to={`/products/${productId}`}>
+          <CardMedia
+            component="img"
+            width="100%"
+            image={image}
+            alt={`image of ${name}`}
+          />
+        </Link>
         <HighlightOffIcon
           fontSize="large"
           sx={deleteItemButton}
