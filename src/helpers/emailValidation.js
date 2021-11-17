@@ -21,7 +21,7 @@ export const emailValidation = (state, setState) => {
     setState({
       ...state,
       errorEmail:
-        'Email address must be at least 5 characters long, maximum 25 characters long.',
+        'Email address must be at least 5 characters long, maximum 35 characters long.',
     });
     return false;
   }
