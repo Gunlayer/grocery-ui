@@ -120,7 +120,7 @@ const CartItem = ({ cartItem }) => {
 
   return (
     <div>
-      <Box sx={cartStyle}>
+      <Box sx={cartStyle} id={`viewCart_cartItem_${productId}_${size}`}>
         <ProductImage
           productId={productId}
           name={name}

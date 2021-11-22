@@ -55,7 +55,7 @@ const DialogCartContainer = () => {
       }}
     >
       <Box sx={{ padding: '10px' }}>
-        <Box sx={cartItemContainer}>
+        <Box id="shoppingCart_cartItemsContainer" sx={cartItemContainer}>
           {cart.cartItems.map((item) => (
             <DialogCartItem
               key={cart.cartItems.indexOf(item)}

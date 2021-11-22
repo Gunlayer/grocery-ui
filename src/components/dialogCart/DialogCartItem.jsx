@@ -36,6 +36,7 @@ const DialogCartItem = ({ cartItem, handleClose }) => {
         marginBottom: '10px',
         width: { xs: '270px', md: '300px' },
       }}
+      id={`shoppingCart_cartItem_${cartItem.productId}_${cartItem.size}`}
     >
       <Grid item xs={4}>
         <Box sx={{ width: '70px' }}>
