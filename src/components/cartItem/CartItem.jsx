@@ -56,7 +56,7 @@ const CartItem = ({ cartItem }) => {
     image,
   };
 
-  const handleIncreaseQuantity = () => {
+  const handleIncreaseQuantity = (e) => {
     if (quantity < 99) {
       product.quantity += 1;
       dispatch(addItem(product));
@@ -69,9 +69,10 @@ const CartItem = ({ cartItem }) => {
         quantity: 1,
       });
     }
+    e.target.blur();
   };
 
-  const handleDecreaseQuantity = () => {
+  const handleDecreaseQuantity = (e) => {
     if (quantity > 1) {
       product.quantity -= 1;
       dispatch(addItem(product));
@@ -84,6 +85,7 @@ const CartItem = ({ cartItem }) => {
         quantity: 1,
       });
     }
+    e.target.blur();
   };
 
   const handleQuantityChange = (e) => {

@@ -43,6 +43,7 @@ const ProductDetailsContainer = () => {
   const dispatch = useDispatch();
 
   const auth = useSelector((state) => state.auth);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const { token, isAuth, email } = auth;
 
   useEffect(() => {
@@ -60,16 +61,18 @@ const ProductDetailsContainer = () => {
   const { id, image, name, rating, description, price, sizes, sizeType } =
     product.data;
 
-  const handleDecreaseQuantity = () => {
+  const handleDecreaseQuantity = (e) => {
     if (quantity > 1) {
       setQuantity(+(quantity - 1));
     }
+    e.target.blur();
   };
 
-  const handleIncreaseQuantity = () => {
+  const handleIncreaseQuantity = (e) => {
     if (quantity < 99) {
       setQuantity(+(quantity + 1));
     }
+    e.target.blur();
   };
 
   const handleQuantityChange = (e) => {
@@ -85,7 +88,7 @@ const ProductDetailsContainer = () => {
     setActiveSize(index);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
     const product = {
       productId: id,
       name,
@@ -96,15 +99,26 @@ const ProductDetailsContainer = () => {
       image,
     };
 
-    dispatch(addItem(product));
-    addToCartRequest({
-      token,
-      isAuth,
-      productId: product.productId,
-      size: product.size,
-      quantity: product.quantity,
-      email,
-    });
+    const match = cartItems.find(
+      (item) => item.productId === id && item.size === product.size
+    );
+    const index = cartItems.indexOf(match);
+    if (index > -1 && cartItems[index].quantity + product.quantity > 99) {
+      return;
+    } else {
+      dispatch(addItem(product));
+
+      addToCartRequest({
+        token,
+        isAuth,
+        productId: product.productId,
+        size: product.size,
+        quantity: product.quantity,
+        email,
+      });
+    }
+
+    e.target.blur();
   };
 
   const columnStyle = {

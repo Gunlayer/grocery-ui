@@ -56,11 +56,12 @@ const DialogCartContainer = () => {
     >
       <Box sx={{ padding: '10px' }}>
         <Box id="shoppingCart_cartItemsContainer" sx={cartItemContainer}>
-          {cart.cartItems.map((item) => (
+          {cart.cartItems.map((item, index) => (
             <DialogCartItem
               key={cart.cartItems.indexOf(item)}
               cartItem={item}
               handleClose={handleClose}
+              index={index}
             />
           ))}
         </Box>

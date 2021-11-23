@@ -1,9 +1,8 @@
 import { Typography } from '@mui/material';
 
 export const priceStyle = {
-  fontFamily: 'Lemonada',
   color: 'primary.main',
-  fontWeight: 700,
+  fontWeight: 600,
   '@media (max-width: 750px)': {
     display: 'block',
   },

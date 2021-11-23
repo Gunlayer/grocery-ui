@@ -74,6 +74,7 @@ const cardPriceSx = {
 
 const MostPopularProduct = ({ productItem }) => {
   const auth = useSelector((state) => state.auth);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const { token, isAuth, email } = auth;
 
   const [active, setActive] = useState(0);
@@ -82,7 +83,7 @@ const MostPopularProduct = ({ productItem }) => {
 
   const { id, name, price, image, sizeType, sizes } = productItem;
 
-  const addToCartClickHandler = () => {
+  const addToCartClickHandler = (e) => {
     const product = {
       productId: id,
       name,
@@ -92,16 +93,27 @@ const MostPopularProduct = ({ productItem }) => {
       size: sizes[active],
       quantity: 1,
     };
-    dispatch(addItem(product));
 
-    addToCartRequest({
-      token,
-      isAuth,
-      productId: product.productId,
-      size: product.size,
-      quantity: product.quantity,
-      email,
-    });
+    const match = cartItems.find(
+      (item) => item.productId === id && item.size === product.size
+    );
+    const index = cartItems.indexOf(match);
+    if (index > -1 && cartItems[index].quantity > 98) {
+      return;
+    } else {
+      dispatch(addItem(product));
+
+      addToCartRequest({
+        token,
+        isAuth,
+        productId: product.productId,
+        size: product.size,
+        quantity: product.quantity,
+        email,
+      });
+    }
+
+    e.target.blur();
   };
 
   const sizeClickHandle = (index) => {

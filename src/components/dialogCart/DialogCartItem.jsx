@@ -5,7 +5,7 @@ import { deleteItem } from '../../redux/slices/cartSlice';
 import { deleteFromCartRequest } from '../../helpers/deleteFromCartRequest';
 import { Link } from 'react-router-dom';
 
-const DialogCartItem = ({ cartItem, handleClose }) => {
+const DialogCartItem = ({ cartItem, handleClose, index }) => {
   const auth = useSelector((state) => state.auth);
   const { token, isAuth, email } = auth;
 
@@ -46,6 +46,7 @@ const DialogCartItem = ({ cartItem, handleClose }) => {
               width="100%"
               image={cartItem.image}
               alt={`image of ${cartItem.name}`}
+              id={`cartItem_${index}_image`}
             />
           </Link>
         </Box>
@@ -66,16 +67,17 @@ const DialogCartItem = ({ cartItem, handleClose }) => {
                 color: 'primary.main',
               },
             }}
+            id={`cartItem_${index}_name`}
           >
             {cartItem.name}
           </Typography>
         </Link>
-        <Typography>
+        <Typography id={`cartItem_${index}_quantity`}>
           {cartItem.quantity} x {cartItem.price.toFixed(2)} USD
         </Typography>
       </Grid>
       <Grid item xs={2}>
-        <Typography>
+        <Typography id={`cartItem_${index}_size`}>
           {cartItem.size}
           {sizeTypes[cartItem.sizeType]}
         </Typography>
@@ -90,6 +92,7 @@ const DialogCartItem = ({ cartItem, handleClose }) => {
             '&:hover': { backgroundColor: 'transparent', color: 'black' },
           }}
           onClick={deleteCartItemHandle}
+          id={`cartItem_${index}_deleteButton`}
         >
           <CloseIcon></CloseIcon>
         </Button>
