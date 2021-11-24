@@ -1,0 +1,92 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: grocery-shop-ui-deployment-demo
+  labels:
+    env: demo
+    app: grocery-shop-ui
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: grocery-shop-ui-demo
+
+  template:
+    metadata:
+      labels:
+        env: demo
+        project: grocery-shop-ui-demo
+    spec:
+      containers:
+      - name: grocery-shop-ui-demo-pod
+        image: mddinternship2021h2project.azurecr.io/grocery-shop-ui:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        # resources:
+        #   requests:
+        #     cpu: 1.0
+        #     memory: 2Gi
+        #   limits:
+        #     cpu: 2.0
+        #     memory: 4Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grocery-shop-ui-service-demo
+  labels:
+    env: demo
+spec:
+  selector:
+    project: grocery-shop-ui-demo
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 80
+      targetPort: 80
+  type: ClusterIP
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: grocery-shop-ui-ingress-demo
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /$2
+
+# spec:
+#   rules:
+#   - host: grocery-list.trydevops.com
+#     http:
+#       paths:
+#       - path: /grocery-list(/|$)(.*)
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: grocery-shop-ui-service-demo
+#             port:
+#               number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grocery-shop-ui-ingress-demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+
+spec:
+  rules:
+  # - host: www..com
+  - http:
+      paths:
+      - path: /grocery-list-ui-demo(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: grocery-shop-ui-service-demo
+            port:
+              number: 80
