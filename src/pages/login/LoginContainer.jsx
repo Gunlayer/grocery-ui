@@ -19,6 +19,7 @@ import {
   footerLinksStyle,
 } from '../../components/common/styles/loginAndRegistrationStyles';
 import { rewriteCart } from '../../redux/slices/cartSlice';
+import jwt_decode from 'jwt-decode';
 
 const LoginContainer = () => {
   const history = useHistory();
@@ -61,14 +62,20 @@ const LoginContainer = () => {
         });
 
         if (response.status === 200) {
+          const token = response.data.token;
           dispatch(
             setIsAuth({
               email: response.data.email,
-              token: response.data.token,
+              token,
               isAuth: true,
             })
           );
-          history.push('/');
+          const decodedToken = jwt_decode(token);
+          if (decodedToken.role === 'ADMIN') {
+            history.push('/admin/dashboard');
+          } else {
+            history.push('/');
+          }
 
           dispatch(rewriteCart(response.data.cartItems));
         }
