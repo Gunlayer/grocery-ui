@@ -9,6 +9,7 @@ import LoginPage from './pages/login/LoginPage';
 import RegistrationPage from './pages/registration/RegistrationPage';
 import CartPage from './pages/cart/CartPage';
 import ProductDetailsPage from './pages/productDetails/ProductDetailsPage';
+import AdminPanelPage from './pages/adminPanel/AdminPanelPage';
 
 const App = () => {
   return (
@@ -29,8 +30,17 @@ const App = () => {
         <Route exact path="/products/:productId">
           <ProductDetailsPage />
         </Route>
-        <Route path="/">
+        <Route
+          exact
+          path={['/admin/dashboard', '/admin/products', '/admin/users']}
+        >
+          <AdminPanelPage />
+        </Route>
+        <Route exact path="/">
           <HomePage />
+        </Route>
+        <Route path="/">
+          <Redirect to="/" />
         </Route>
       </Switch>
     </Router>
