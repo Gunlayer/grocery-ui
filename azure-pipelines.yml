@@ -105,6 +105,15 @@ stages:
       
       steps:
       - checkout: self
+      
+      - task: KubernetesManifest@0
+       displayName: Delete previous deployment
+       inputs:
+         action: delete
+         arguments: deployment grocery-shop-ui
+         kubernetesServiceConnection: 'grocery-list-dev-sc'
+         namespace: 'grocery-list-dev'     
+      
       - task: KubernetesManifest@0
         displayName: deploy
         inputs:
@@ -126,6 +135,15 @@ stages:
       
       steps:
       - checkout: self
+      
+      - task: KubernetesManifest@0
+        displayName: Delete
+        inputs:
+          action: delete
+          arguments: deployment grocery-shop-ui
+          kubernetesServiceConnection: 'grocery-list-demo-sc'
+          namespace: 'grocery-list-demo'
+      
       - task: KubernetesManifest@0
         displayName: deploy
         inputs:
