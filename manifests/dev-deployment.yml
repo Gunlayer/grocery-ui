@@ -1,46 +1,45 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: grocery-shop-ui-deployment-dev
+  name: grocery-shop-ui
   labels:
     env: dev
+    project: grocery-shop
     app: grocery-shop-ui
+    tier: frontend
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      project: grocery-shop-ui-dev
+      project: grocery-shop
+      app: grocery-shop-ui
+      tier: frontend
 
   template:
     metadata:
       labels:
-        project: grocery-shop-ui-dev
+        project: grocery-shop
+        app: grocery-shop-ui
+        tier: frontend
     spec:
       containers:
-      - name: grocery-shop-ui-dev-pod
+      - name: nginx-dev
         image: mddinternship2021h2project.azurecr.io/grocery-shop-ui:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-        # resources:
-        #   requests:
-        #     cpu: 1.0
-        #     memory: 2Gi
-        #   limits:
-        #     cpu: 2.0
-        #     memory: 4Gi
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: grocery-shop-ui-service-dev
+  name: grocery-shop-ui-service
   labels:
     env: dev
 spec:
   selector:
-    project: grocery-shop-ui-dev
+    project: grocery-shop
   ports:
     - name      : app-listener
       protocol  : TCP
@@ -48,45 +47,21 @@ spec:
       targetPort: 80
   type: ClusterIP
 
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: grocery-shop-ui-ingress-dev
-#   annotations:
-#     nginx.ingress.kubernetes.io/rewrite-target: /$2
-
-# spec:
-#   rules:
-#   - host: grocery-list-dev.trydevops.com
-#     http:
-#       paths:
-#       - path: /grocery-list-dev(/|$)(.*)
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: grocery-shop-ui-service-dev
-#             port:
-#               number: 80
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grocery-shop-ui-ingress-dev
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: grocery-shop-ui-ingress
 
 spec:
   rules:
-  # - host: www..com
-  - http:
+  - host: grocery-list-dev.trydevops.com
+    http:
       paths:
-      - path: /grocery-list-ui-dev(/|$)(.*)
+      - path: /
         pathType: Prefix
         backend:
           service:
-            name: grocery-shop-ui-service-dev
+            name: grocery-shop-ui-service
             port:
               number: 80
-            

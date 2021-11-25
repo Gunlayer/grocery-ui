@@ -10,28 +10,25 @@ variables:
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/releases/*')]
   - name: isDevOps
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/xxx')]
+  - name: isPR
+    value: $[eq(variables['Build.Reason'], 'PullRequest')]
   
 resources:
   pipelines:
   - pipeline: grocery-shop-ui
     source: grocery-shop-ui
-    trigger:
-      branches:
-        include:
-        - main
-        - releases/*
-        exclude:
-        - feature/*
-        - hotfix/*
-        - bugfix/*
-  
+    # trigger:
+    #   branches:
+    #     include:
+    #     - main
+    #     - releases/*
   
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
   
 stages:
   
 - stage: Test_Build
-  condition: and(eq(variables.isMain, 'false'), eq(variables.isRelease, 'false'))
+  condition: and(eq(variables.isPR, 'true'), eq(variables.isMain, 'false'), eq(variables.isRelease, 'false'))
   displayName: 'Run build image'
 
   jobs:
