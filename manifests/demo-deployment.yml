@@ -40,6 +40,7 @@ metadata:
 spec:
   selector:
     project: grocery-shop
+    tier: frontend
   ports:
     - name      : app-listener
       protocol  : TCP
