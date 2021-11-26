@@ -24,6 +24,7 @@ const DialogCartItem = ({ cartItem, handleClose, index }) => {
       token,
       isAuth,
       email,
+      quantity: cartItem.quantity,
       size: cartItem.size,
       productId: cartItem.productId,
     });

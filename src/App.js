@@ -10,8 +10,34 @@ import RegistrationPage from './pages/registration/RegistrationPage';
 import CartPage from './pages/cart/CartPage';
 import ProductDetailsPage from './pages/productDetails/ProductDetailsPage';
 import AdminPanelPage from './pages/adminPanel/AdminPanelPage';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsAuth } from './redux/slices/authSlice';
 
 const App = () => {
+  const token = useSelector((state) => state.auth.token);
+  const email = useSelector((state) => state.auth.email);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Initialize an agent at application startup.
+    const fpPromise = FingerprintJS.load();
+
+    (async () => {
+      // Get the visitor identifier when you need it.
+      const fp = await fpPromise;
+      const result = await fp.get();
+
+      // This is the visitor identifier:
+      const visitorId = result.visitorId;
+      console.log(visitorId);
+    })();
+
+    if (token) {
+      dispatch(setIsAuth({ token, email, isAuth: true }));
+    }
+  }, []);
   return (
     <Router>
       <Switch>
