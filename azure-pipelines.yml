@@ -1,3 +1,4 @@
+# Variable Group 'grocery-list' was defined in the Variables tab
 variables:
   - group: grocery-list
   - name: buildTag
@@ -14,16 +15,21 @@ variables:
     value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/devops/')]
   - name: isPR
     value: $[eq(variables['Build.Reason'], 'PullRequest')]
-  
+
+trigger:
+  branches:
+    include:
+    - refs/heads/main
+    - refs/heads/release/*
+
 resources:
+  repositories:
+  - repository: self
+    type: git
+
   pipelines:
   - pipeline: grocery-shop-ui
     source: grocery-shop-ui
-    trigger:
-      branches:
-        include:
-        - main
-        - release/*
   
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
   
