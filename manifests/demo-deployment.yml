@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: nginx-demo
-        image: mddinternship2021h2project.azurecr.io/grocery-shop-ui:latest
+        image: mddinternship2021h2project.azurecr.io/grocery-shop-ui
         imagePullPolicy: Always
         ports:
         - containerPort: 80
