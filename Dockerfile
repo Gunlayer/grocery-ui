@@ -6,7 +6,6 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm ci --silent
 RUN npm install
-RUN npm install jwt-decode
 RUN npm install react-scripts@4.0.3 -g --silent
 COPY . ./
 RUN npm run build
