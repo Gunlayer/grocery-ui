@@ -44,6 +44,14 @@ const CartItem = ({ cartItem }) => {
 
   const deleteCartItemHandle = () => {
     dispatch(deleteItem({ productId, size }));
+    deleteFromCartRequest({
+      token,
+      isAuth,
+      email,
+      productId,
+      size,
+      quantity,
+    });
   };
 
   const product = {
