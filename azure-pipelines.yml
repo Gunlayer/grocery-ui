@@ -1,7 +1,7 @@
 variables:
   - group: grocery-list
   - name: buildTag
-    value: '$(Build.SourceBranchName).$(Build.BuildId)'
+    value: lower('$(Build.SourceBranchName).$(Build.BuildId)')
   - name: BuildParameters.dockerFile
     value: '**/Dockerfile'
   # - name: vmImageName
