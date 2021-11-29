@@ -99,7 +99,7 @@ stages:
 
 - stage: Deploy2dev
   dependsOn: Build_N_Push
-  condition: and(succeeded(), eq(variables.isMain, 'true'))
+  condition: eq(variables.isMain, 'true')
   displayName: Deploy to AKS dev
 
   jobs:
@@ -123,7 +123,7 @@ stages:
 
 - stage: Deploy2demo
   dependsOn: Build_N_Push
-  condition: and(succeeded(), eq(variables.isRelease, 'true'))
+  condition: eq(variables.isRelease, 'true')
   displayName: Deploy to AKS demo
 
   jobs:
