@@ -1,5 +1,7 @@
 variables:
   - group: grocery-list
+  - name: buildTag
+    value: lower('$(Build.SourceBranchName).$(Build.BuildId)')
   - name: BuildParameters.dockerFile
     value: '**/Dockerfile'
   # - name: vmImageName
@@ -7,7 +9,7 @@ variables:
   - name: isMain
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   - name: isRelease
-    value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/releases/')]
+    value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')]
   - name: isDevOps
     value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/devops/')]
   - name: isPR
@@ -21,12 +23,13 @@ resources:
       branches:
         include:
         - main
-        - releases/*
+        - release/*
   
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
   
 stages:
-  
+
+# ***************************************** Test Build *****************************************
 - stage: Test_Build
   condition: and(eq(variables.isPR, 'true'), eq(variables.isMain, 'false'), eq(variables.isRelease, 'false'))
   displayName: 'Run build image'
@@ -35,53 +38,51 @@ stages:
   - job: Build
     displayName: Build job
     pool: Default
-      # vmImage: $(vmImageName)
+
     steps:
     - checkout: self
 
-    - task: Docker@0
-      displayName: Clean previous images
-      inputs:
-        action: Run a Docker command
-        customCommand: system prune -af
-
+# =========================== Test build ===========================
     - task: Docker@0
       displayName: Build an image
       inputs:
+        action: Run a Docker command
         dockerFile: $(BuildParameters.dockerFile)
-        # buildArguments: SONAR_TOKEN=$(SONAR_TOKEN)
-        additionalImageTags: $(Build.BuildId)
-        includeLatestTag: true
+        customCommand: build --target build -t gr-list-test-js-app .
 
+# =========================== Cleaning after ===========================
+    - task: Docker@0
+      displayName: Clean dangling images
+      inputs:
+        action: Run a Docker command
+        customCommand: image rm gr-list-test-js-app -f
+
+
+   
+# ***************************************** Build N Push an image *****************************************
 - stage: Build_N_Push
-  condition: or(eq(variables.isMain, 'true'), eq(variables.isDevOps, 'true'))
+  condition: or(eq(variables.isMain, 'true'), eq(variables.isRelease, 'true'))
   displayName: 'Run build and push image to ACR'
 
   jobs:
   - job: Build
     displayName: Build_N_Push job
     pool: Default
-      # vmImage: $(vmImageName)
+
     steps:
     - checkout: self
 
-    - task: Docker@0
-      displayName: Clean previous images
-      inputs:
-        action: Run a Docker command
-        customCommand: system prune -af
-
+# =========================== Build an image ===========================
     - task: Docker@0
       displayName: Build an image
       inputs:
         azureSubscriptionEndpoint: 38386be4-ac4e-425b-8cd7-0127b8f9c0d9
         azureContainerRegistry: '{"loginServer":"mddinternship2021h2project.azurecr.io", "id" : "/subscriptions/01145a00-1779-4383-8b3a-08a39e3816fe/resourceGroups/Internship/providers/Microsoft.ContainerRegistry/registries/mddinternship2021h2project"}'
         dockerFile: $(BuildParameters.dockerFile)
-        # buildArguments: SONAR_TOKEN=$(SONAR_TOKEN)
         imageName: grocery-shop-ui
-        additionalImageTags: $(Build.BuildId)
-        includeLatestTag: true
+        additionalImageTags: $(buildTag)
 
+# =========================== Push an image ===========================
     - task: Docker@0
       displayName: Push an image
       inputs:
@@ -89,30 +90,38 @@ stages:
         azureContainerRegistry: '{"loginServer":"mddinternship2021h2project.azurecr.io", "id" : "/subscriptions/01145a00-1779-4383-8b3a-08a39e3816fe/resourceGroups/Internship/providers/Microsoft.ContainerRegistry/registries/mddinternship2021h2project"}'
         action: Push an image
         imageName: grocery-shop-ui
-        additionalImageTags: $(Build.BuildId)
-        includeLatestTag: true
+        additionalImageTags: $(buildTag)
 
+# =========================== Cleaning after ===========================
+    - task: Docker@0
+      displayName: Clean dangling images
+      inputs:
+        action: Run a Docker command
+        customCommand: system prune -f
+
+    - task: Docker@0
+      displayName: Clean unuses images
+      inputs:
+        action: Run a Docker command
+        customCommand: image rm grocery-shop-ui:$(buildTag) -f
+
+
+
+# ***************************************** Deploy to DEV environment *****************************************
 - stage: Deploy2dev
   dependsOn: Build_N_Push
-  condition: or(eq(variables.isMain, 'true'), eq(variables.isDevOps, 'true'))
+  condition: and(succeeded(), eq(variables.isMain, 'true'))
   displayName: Deploy to AKS dev
 
   jobs:
+
+# =========================== Deploy to DEMO ===========================          
     - job: Deploy
       displayName: Deploy to dev-AKS job
       pool: Default
-        # vmImage: $(vmImageName)
       
       steps:
       - checkout: self
-      
-      - task: KubernetesManifest@0
-        displayName: Delete previous deployment
-        inputs:
-          action: delete
-          arguments: deployment grocery-shop-ui
-          kubernetesServiceConnection: 'grocery-list-dev-sc'
-          namespace: 'grocery-list-dev'     
       
       - task: KubernetesManifest@0
         displayName: deploy
@@ -121,33 +130,45 @@ stages:
           kubernetesServiceConnection: 'grocery-list-dev-sc'
           namespace: 'grocery-list-dev'
           manifests: manifests/dev-deployment.yml
+          containers: mddinternship2021h2project.azurecr.io/grocery-shop-ui:$(buildTag)
 
+
+# ***************************************** Deploy to DEMO environment *****************************************
 - stage: Deploy2demo
   dependsOn: Build_N_Push
-  condition: eq(variables.isRelease, 'true')
+  condition: and(succeeded(), eq(variables.isRelease, 'true'))
   displayName: Deploy to AKS demo
 
   jobs:
+
+# =========================== Validation ===========================
+    - job: Validation 
+      displayName: Manual validation job
+      pool: server
+      timeoutInMinutes: 4320
+
+      steps:
+      - task: ManualValidation@0
+        displayName: Manual Validation
+        retryCountOnTaskFailure: 1
+        timeoutInMinutes: 1440
+        inputs:
+          notifyUsers: nicolae.nicolaev@endava.com
+          instructions: Please review and approve the release
+
+# =========================== Deploy to DEMO ===========================
     - job: Deploy
       displayName: Deploy to demo-AKS job
       pool: Default
-        # vmImage: $(vmImageName)
-      
+    
       steps:
       - checkout: self
       
       - task: KubernetesManifest@0
-        displayName: Delete previous deployment
-        inputs:
-          action: delete
-          arguments: deployment grocery-shop-ui
-          kubernetesServiceConnection: 'grocery-list-demo-sc'
-          namespace: 'grocery-list-demo'
-      
-      - task: KubernetesManifest@0
-        displayName: deploy
+        displayName: Deploy to Demo
         inputs:
           action: 'deploy'
           kubernetesServiceConnection: 'grocery-list-demo-sc'
           namespace: 'grocery-list-demo'
           manifests: manifests/demo-deployment.yml
+          containers: mddinternship2021h2project.azurecr.io/grocery-shop-ui:$(buildTag)
