@@ -29,7 +29,6 @@ name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
   
 stages:
 
-# ***************************************** Test Build *****************************************
 - stage: Test_Build
   condition: and(eq(variables.isPR, 'true'), eq(variables.isMain, 'false'), eq(variables.isRelease, 'false'))
   displayName: 'Run build image'
@@ -42,7 +41,6 @@ stages:
     steps:
     - checkout: self
 
-# =========================== Test build ===========================
     - task: Docker@0
       displayName: Build an image
       inputs:
@@ -50,16 +48,12 @@ stages:
         dockerFile: $(BuildParameters.dockerFile)
         customCommand: build --target build -t gr-list-test .
 
-# =========================== Cleaning after ===========================
     - task: Docker@0
       displayName: Clean dangling images
       inputs:
         action: Run a Docker command
         customCommand: image rm gr-list-test -f
 
-
-   
-# ***************************************** Build N Push an image *****************************************
 - stage: Build_N_Push
   condition: or(eq(variables.isMain, 'true'), eq(variables.isRelease, 'true'))
   displayName: 'Run build and push image to ACR'
@@ -72,7 +66,6 @@ stages:
     steps:
     - checkout: self
 
-# =========================== Build an image ===========================
     - task: Docker@0
       displayName: Build an image
       inputs:
@@ -82,7 +75,6 @@ stages:
         imageName: grocery-shop-ui
         additionalImageTags: $(buildTag)
 
-# =========================== Push an image ===========================
     - task: Docker@0
       displayName: Push an image
       inputs:
@@ -92,7 +84,6 @@ stages:
         imageName: grocery-shop-ui
         additionalImageTags: $(buildTag)
 
-# =========================== Cleaning after ===========================
     - task: Docker@0
       displayName: Clean dangling images
       inputs:
@@ -106,8 +97,6 @@ stages:
         customCommand: image rm grocery-shop-ui:$(buildTag) -f
 
 
-
-# ***************************************** Deploy to DEV environment *****************************************
 - stage: Deploy2dev
   dependsOn: Build_N_Push
   condition: and(succeeded(), eq(variables.isMain, 'true'))
@@ -115,7 +104,6 @@ stages:
 
   jobs:
 
-# =========================== Deploy to DEMO ===========================          
     - job: Deploy
       displayName: Deploy to dev-AKS job
       pool: Default
@@ -133,7 +121,6 @@ stages:
           containers: mddinternship2021h2project.azurecr.io/grocery-shop-ui:$(buildTag)
 
 
-# ***************************************** Deploy to DEMO environment *****************************************
 - stage: Deploy2demo
   dependsOn: Build_N_Push
   condition: and(succeeded(), eq(variables.isRelease, 'true'))
@@ -141,7 +128,6 @@ stages:
 
   jobs:
 
-# =========================== Validation ===========================
     - job: Validation 
       displayName: Manual validation job
       pool: server
@@ -156,7 +142,6 @@ stages:
           notifyUsers: nicolae.nicolaev@endava.com
           instructions: Please review and approve the release
 
-# =========================== Deploy to DEMO ===========================
     - job: Deploy
       displayName: Deploy to demo-AKS job
       pool: Default
