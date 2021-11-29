@@ -1,9 +1,7 @@
 variables:
   - group: grocery-list
-  - name: buildTagUpper
-    value: $(Build.SourceBranchName).$(Build.BuildId)
   - name: buildTag
-    value: lower(variables.buildTagUpper)
+    value: $(Build.SourceBranchName).$(Build.BuildId)
   - name: BuildParameters.dockerFile
     value: '**/Dockerfile'
   # - name: vmImageName
@@ -50,14 +48,14 @@ stages:
       inputs:
         action: Run a Docker command
         dockerFile: $(BuildParameters.dockerFile)
-        customCommand: build --target build -t gr-list-test-$(buildTag) .
+        customCommand: build --target build -t gr-list-test .
 
 # =========================== Cleaning after ===========================
     - task: Docker@0
       displayName: Clean dangling images
       inputs:
         action: Run a Docker command
-        customCommand: image rm gr-list-test-$(buildTag) -f
+        customCommand: image rm gr-list-test -f
 
 
    
