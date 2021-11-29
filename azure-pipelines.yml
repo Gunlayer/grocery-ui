@@ -52,10 +52,11 @@ stages:
 
 # =========================== Cleaning after ===========================
     - task: Docker@0
-      displayName: Clean unuses images
+      displayName: Clean dangling images
       inputs:
         action: Run a Docker command
-        customCommand: image rm -f IMAGE gr-list-test-js-app
+        customCommand: image rm gr-list-test-js-app -f
+
 
    
 # ***************************************** Build N Push an image *****************************************
@@ -93,16 +94,17 @@ stages:
 
 # =========================== Cleaning after ===========================
     - task: Docker@0
-      displayName: Clean unuses images
-      inputs:
-        action: Run a Docker command
-        customCommand: image rm -f IMAGE grocery-shop-ui:$(buildTag)
-
-    - task: Docker@0
       displayName: Clean dangling images
       inputs:
         action: Run a Docker command
         customCommand: system prune -f
+
+    - task: Docker@0
+      displayName: Clean unuses images
+      inputs:
+        action: Run a Docker command
+        customCommand: image rm grocery-shop-ui:$(buildTag) -f
+
 
 
 # ***************************************** Deploy to DEV environment *****************************************
