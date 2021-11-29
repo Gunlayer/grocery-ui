@@ -48,7 +48,15 @@ stages:
       inputs:
         action: Run a Docker command
         dockerFile: $(BuildParameters.dockerFile)
-        customCommand: build --target build
+        customCommand: build --target build -t gr-list-test-js-app .
+
+# =========================== Cleaning after ===========================
+    - task: Docker@0
+      displayName: Clean unuses images
+      inputs:
+        action: Run a Docker command
+        customCommand: image rm -f IMAGE gr-list-test-js-app
+
    
 # ***************************************** Build N Push an image *****************************************
 - stage: Build_N_Push
