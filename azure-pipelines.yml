@@ -47,7 +47,7 @@ stages:
       displayName: Build an image
       inputs:
         action: Run a Docker command
-        imageName: grocery-shop-ui
+        dockerFile: $(BuildParameters.dockerFile)
         customCommand: build --target build
    
 # ***************************************** Build N Push an image *****************************************
