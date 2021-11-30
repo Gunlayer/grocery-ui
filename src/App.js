@@ -58,7 +58,12 @@ const App = () => {
         </Route>
         <Route
           exact
-          path={['/admin/dashboard', '/admin/products', '/admin/users']}
+          path={[
+            '/admin/dashboard',
+            '/admin/products',
+            '/admin/users',
+            '/admin/products/:productId',
+          ]}
         >
           <AdminPanelPage />
         </Route>

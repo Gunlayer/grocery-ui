@@ -3,7 +3,8 @@ import { useQuery } from 'react-query';
 
 export const useProduct = (id) =>
   useQuery(['product', id], getProduct, {
-    staleTime: 1000 * 60 * 5,
+    staleTime: 60 * 1000 * 5,
+    cacheTime: 0,
   });
 
 const getProduct = async (context) => {
