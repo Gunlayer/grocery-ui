@@ -17,7 +17,6 @@ import { setIsAuth, setVisitorId } from './redux/slices/authSlice';
 import axios from 'axios';
 
 const App = () => {
-  console.disableYellowBox = true;
   const token = useSelector((state) => state.auth.token);
   const email = useSelector((state) => state.auth.email);
   const dispatch = useDispatch();
@@ -74,7 +73,12 @@ const App = () => {
         </Route>
         <Route
           exact
-          path={['/admin/dashboard', '/admin/products', '/admin/users']}
+          path={[
+            '/admin/dashboard',
+            '/admin/products',
+            '/admin/users',
+            '/admin/products/:productId',
+          ]}
         >
           <AdminPanelPage />
         </Route>

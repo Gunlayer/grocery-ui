@@ -45,7 +45,6 @@ const RegistrationContainer = () => {
   const { email, password } = state;
 
   const handleClick = async (e) => {
-    console.log(visitorId);
     e.preventDefault();
 
     if (

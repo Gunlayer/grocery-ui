@@ -1,10 +1,11 @@
 import { Button } from '@mui/material';
 
 const CommonButton = (props) => {
-  const { width, padding, fontSize, children } = props;
+  const { width, height, padding, fontSize, children } = props;
 
   const buttonSx = {
     width,
+    height,
     borderRadius: '50px',
     textTransform: 'none',
     color: 'white',
@@ -13,6 +14,7 @@ const CommonButton = (props) => {
       backgroundColor: 'secondary.main',
     },
     fontSize,
+    '& a': { textDecoration: 'none' },
   };
 
   return (

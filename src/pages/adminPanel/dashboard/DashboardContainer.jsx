@@ -9,7 +9,7 @@ import Spinner from '../../../components/common/Spinner';
 
 const DashboardContainer = ({ setActive, active }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, seError] = useState('');
+  const [error, setError] = useState('');
   const [data, setData] = useState({
     newUserRegistrations: 0,
     uniqueUsers: 0,
@@ -38,7 +38,12 @@ const DashboardContainer = ({ setActive, active }) => {
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err && err.response) {
-          seError(err.response.data.error);
+          if (err.response.data.error) {
+            setError(err.response.data.error);
+          }
+          if (err.response.data.status) {
+            setError(err.response.data.status);
+          }
           setIsLoading(false);
         }
       }

@@ -1,3 +1,11 @@
+import { useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -6,19 +14,13 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
-import Products from '../../components/adminPanel/products/Products';
-import Users from '../../components/adminPanel/users/Users';
-import adminAvatar from '../../assets/admin_avatar.svg';
-import { useState } from 'react';
 import DashboardContainer from './dashboard/DashboardContainer';
 import { useSelector } from 'react-redux';
+import ProductsContainer from './products/ProductsContainer';
+import UsersContainer from './users/UsersContainer';
+import adminAvatar from '../../assets/admin_avatar.svg';
+import AddNewProductContainer from './products/AddNewProductContainer';
+import EditProductContainer from './products/EditProductContainer';
 
 const drawerWidth = 260;
 const hover = {
@@ -115,11 +117,17 @@ export default function PermanentDrawerLeft() {
             <Route exact path="/admin/dashboard">
               <DashboardContainer setActive={setActive} active={active} />
             </Route>
+            <Route exact path="/admin/products/addNewProduct">
+              <AddNewProductContainer setActive={setActive} />
+            </Route>
+            <Route exact path="/admin/products/:productId">
+              <EditProductContainer setActive={setActive} />
+            </Route>
             <Route exact path="/admin/products">
-              <Products setActive={setActive} active={active} />
+              <ProductsContainer setActive={setActive} active={active} />
             </Route>
             <Route exact path="/admin/users">
-              <Users setActive={setActive} active={active} />
+              <UsersContainer setActive={setActive} active={active} />
             </Route>
             <Route path="/admin">
               <Redirect to="/admin/dashboard" />
