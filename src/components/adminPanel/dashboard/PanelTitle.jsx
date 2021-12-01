@@ -8,6 +8,7 @@ const selectIcon = (icon) => {
   const dashBoardIcon = <DashboardIcon sx={{ mr: 0.5 }} fontSize="inherit" />;
   const productIcon = <CategoryIcon sx={{ mr: 0.5 }} fontSize="inherit" />;
   const usersIcon = <PeopleIcon sx={{ mr: 0.5 }} fontSize="inherit" />;
+  // eslint-disable-next-line
   switch (icon) {
     case 'dashboard':
       return dashBoardIcon;

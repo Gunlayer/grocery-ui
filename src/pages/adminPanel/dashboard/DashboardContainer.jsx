@@ -10,7 +10,13 @@ import Spinner from '../../../components/common/Spinner';
 const DashboardContainer = ({ setActive, active }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, seError] = useState('');
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    newUserRegistrations: 0,
+    uniqueUsers: 0,
+    newOrders: 0,
+    incompleteOrders: 0,
+    mostSoldProducts: [],
+  });
 
   const token = useSelector((state) => state.auth.token);
 
@@ -21,8 +27,8 @@ const DashboardContainer = ({ setActive, active }) => {
   const getData = async () => {
     try {
       const response = await axios({
-        method: 'POST',
-        url: '/api/admin/dashboard',
+        method: 'GET',
+        url: '/api/dashboard',
         headers: { Authorization: token },
       });
       if (response.status === 200) {
@@ -32,7 +38,7 @@ const DashboardContainer = ({ setActive, active }) => {
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err && err.response) {
-          seError(err.response.data.message);
+          seError(err.response.data.error);
           setIsLoading(false);
         }
       }

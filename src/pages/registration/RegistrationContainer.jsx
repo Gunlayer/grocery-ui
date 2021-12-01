@@ -24,6 +24,7 @@ const RegistrationContainer = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.registration.loading);
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const visitorId = useSelector((state) => state.auth.visitorId);
 
   const [state, setState] = useState({
     email: '',
@@ -44,6 +45,7 @@ const RegistrationContainer = () => {
   const { email, password } = state;
 
   const handleClick = async (e) => {
+    console.log(visitorId);
     e.preventDefault();
 
     if (
@@ -57,9 +59,11 @@ const RegistrationContainer = () => {
           email,
           password,
           cartItems,
+          visitorId,
         });
 
         if (response.status === 200) {
+          localStorage.setItem('visitorId', visitorId);
           dispatch(
             setIsAuth({
               email: response.data.email,
@@ -67,6 +71,7 @@ const RegistrationContainer = () => {
               isAuth: true,
             })
           );
+
           history.push('/');
         }
       } catch (err) {
