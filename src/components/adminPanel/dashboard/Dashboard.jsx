@@ -1,10 +1,11 @@
-import { Typography, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import Board from './Board.jsx';
 import Chart from './Chart';
 import newOrdersIcon from '../../../assets/dashboard/new_orders.svg';
 import incompleteOrdersIcon from '../../../assets/dashboard/incomplete_orders.svg';
 import userRegistrationIcon from '../../../assets/dashboard/user_registration.svg';
 import uniqueVisitorsIcon from '../../../assets/dashboard/unique_visitor.svg';
+import ChartTitle from './ChartTitle.jsx';
 
 const Dashboard = ({ data }) => {
   const {
@@ -12,9 +13,25 @@ const Dashboard = ({ data }) => {
     uniqueUsers,
     newOrders,
     incompleteOrders,
-    mostSoldrProducts,
+    mostSoldProducts,
   } = data;
-  //  const sorted = mostSoldrProducts.sort((a, b) => a.quantity - b.quantity);
+
+  const sortProducts = (data) => {
+    const result = [];
+    if (data.length === 0) {
+      return result;
+    }
+    const sorted = data.sort((a, b) => b.quantity - a.quantity);
+
+    sorted.map((item) =>
+      result.push({
+        name: item.name,
+        steps: item.quantity,
+        pictureSettings: { src: item.image },
+      })
+    );
+    return result;
+  };
 
   return (
     <Box>
@@ -30,36 +47,35 @@ const Dashboard = ({ data }) => {
         <Board
           backgroundColor="#17a2b7"
           title="New Order"
-          value={150}
+          value={newOrders}
           icon={newOrdersIcon}
         />
         <Board
           backgroundColor="#27a844"
           title="Incomplete Orders"
-          value={39}
+          value={incompleteOrders}
           icon={incompleteOrdersIcon}
         />
         <Board
           backgroundColor="#fec107"
           title="User Registrations"
-          value={62}
+          value={newUserRegistrations}
           icon={userRegistrationIcon}
         />
         <Board
           backgroundColor="#dc3546"
           title="Unique Visitors"
-          value={590}
+          value={uniqueUsers}
           icon={uniqueVisitorsIcon}
         />
       </Box>
       <Box>
-        <Typography
-          variant="h5"
-          sx={{ textAlign: 'center', marginTop: '15px' }}
-        >
-          Top 5 sold products of the week:
-        </Typography>
-        <Chart />
+        {mostSoldProducts.length ? (
+          <ChartTitle title={`Top ${mostSoldProducts.length} sold products:`} />
+        ) : (
+          <ChartTitle title="No products sold" />
+        )}
+        <Chart topFiveProducts={sortProducts(mostSoldProducts)} />
         <Box
           sx={{
             marginTop: '-20px',

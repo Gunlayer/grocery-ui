@@ -6,6 +6,7 @@ export const initialState = {
   token: localStorage.getItem('token') || '',
   loading: false,
   error: '',
+  visitorId: '',
 };
 
 export const auth = createSlice({
@@ -38,9 +39,13 @@ export const auth = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setVisitorId: (state, action) => {
+      state.visitorId = action.payload;
+    },
   },
 });
 
-export const { setIsAuth, setLoading, setError, logOut } = auth.actions;
+export const { setIsAuth, setLoading, setError, logOut, setVisitorId } =
+  auth.actions;
 
 export default auth.reducer;

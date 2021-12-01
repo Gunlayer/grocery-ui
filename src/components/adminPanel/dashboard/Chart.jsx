@@ -4,7 +4,7 @@ import * as am5xy from '@amcharts/amcharts5/xy';
 
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 
-const Chart = () => {
+const Chart = ({ topFiveProducts }) => {
   const chartEl = useRef(null);
 
   useLayoutEffect(() => {
@@ -15,43 +15,7 @@ const Chart = () => {
     // https://www.amcharts.com/docs/v5/concepts/themes/
     root.setThemes([am5themes_Animated.new(root)]);
 
-    let data = [
-      {
-        name: 'Cherry tomato',
-        steps: 26,
-        pictureSettings: {
-          src: 'https://i.imgur.com/3KZ3zbI.jpg',
-        },
-      },
-      {
-        name: 'Garlic',
-        steps: 48,
-        pictureSettings: {
-          src: 'https://i.imgur.com/2LYFfZJ.jpg',
-        },
-      },
-      {
-        name: 'Avocado',
-        steps: 36,
-        pictureSettings: {
-          src: 'https://i.imgur.com/hc47VwF.jpg',
-        },
-      },
-      {
-        name: 'Ostrich egg',
-        steps: 26,
-        pictureSettings: {
-          src: 'https://i.imgur.com/5GQPguw.jpg',
-        },
-      },
-      {
-        name: 'Watermelon',
-        steps: 39,
-        pictureSettings: {
-          src: 'https://i.imgur.com/SxRVflC.jpg',
-        },
-      },
-    ];
+    let data = topFiveProducts;
 
     // Create chart
     // https://www.amcharts.com/docs/v5/charts/xy-chart/
@@ -244,7 +208,7 @@ const Chart = () => {
     return () => {
       root.dispose();
     };
-  }, []);
+  }, [topFiveProducts]);
   return <div id="chartdiv" style={{ width: '100%', height: '400px' }}></div>;
 };
 

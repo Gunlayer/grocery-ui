@@ -13,12 +13,21 @@ import AdminPanelPage from './pages/adminPanel/AdminPanelPage';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsAuth } from './redux/slices/authSlice';
+import { setIsAuth, setVisitorId } from './redux/slices/authSlice';
+import axios from 'axios';
 
 const App = () => {
   const token = useSelector((state) => state.auth.token);
   const email = useSelector((state) => state.auth.email);
   const dispatch = useDispatch();
+
+  const getUniqueVisitorId = (visitorId) => {
+    axios({
+      method: 'POST',
+      url: '/api/dashboard/visitor',
+      data: { visitorId },
+    });
+  };
 
   useEffect(() => {
     // Initialize an agent at application startup.
@@ -31,12 +40,18 @@ const App = () => {
 
       // This is the visitor identifier:
       const visitorId = result.visitorId;
-      console.log(visitorId);
+      dispatch(setVisitorId(visitorId));
+      if (!localStorage.visitorId) {
+        localStorage.setItem('visitorId', visitorId);
+        getUniqueVisitorId(visitorId);
+        console.log(visitorId);
+      }
     })();
 
     if (token) {
       dispatch(setIsAuth({ token, email, isAuth: true }));
     }
+    // eslint-disable-next-line
   }, []);
   return (
     <Router>
