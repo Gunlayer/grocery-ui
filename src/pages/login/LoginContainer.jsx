@@ -26,6 +26,7 @@ const LoginContainer = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.login.loading);
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const visitorId = useSelector((state) => state.auth.visitorId);
 
   const [state, setState] = useState({
     email: '',
@@ -59,9 +60,11 @@ const LoginContainer = () => {
           email,
           password,
           cartItems,
+          visitorId,
         });
 
         if (response.status === 200) {
+          localStorage.setItem('visitorId', visitorId);
           const token = response.data.token;
           dispatch(
             setIsAuth({

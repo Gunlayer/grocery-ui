@@ -15,6 +15,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import DashboardContainer from './dashboard/DashboardContainer';
+import { useSelector } from 'react-redux';
 import ProductsContainer from './products/ProductsContainer';
 import UsersContainer from './users/UsersContainer';
 import adminAvatar from '../../assets/admin_avatar.svg';
@@ -28,6 +29,7 @@ const hover = {
 
 export default function PermanentDrawerLeft() {
   const [active, setActive] = useState('dashboard');
+  const email = useSelector((state) => state.auth.email);
 
   return (
     <Router>
@@ -54,7 +56,7 @@ export default function PermanentDrawerLeft() {
             }}
           >
             <Box component="img" src={adminAvatar} width={50} />
-            <Typography color="white">admin@endava.com</Typography>
+            <Typography color="white">{email}</Typography>
           </Box>
           <List>
             <Link

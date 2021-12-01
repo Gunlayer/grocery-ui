@@ -50,6 +50,7 @@ const NavIconLinksContainer = () => {
       dispatch(logOut());
       dispatch(rewriteCart([]));
       axios.post('/api/auth/logout');
+      localStorage.removeItem('visitorId');
     }
   };
 
