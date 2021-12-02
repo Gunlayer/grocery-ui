@@ -159,10 +159,10 @@ stages:
           namespace: 'grocery-list-demo'
           manifests: manifests/demo-deployment.yml
           containers: mddinternship2021h2project.azurecr.io/grocery-shop-ui:$(buildTag)
-
+    
       - task: Kubernetes@1
         displayName: check demo deployment status 
-        continueOnError: true
+
         inputs:
           connectionType: 'Kubernetes Service Connection'
           kubernetesServiceEndpoint: 'grocery-list-demo-sc'
@@ -176,7 +176,9 @@ stages:
           forceUpdate: false
 
       - task: Kubernetes@1
-        displayName: rollback to previous version 
+        displayName: rollback to previous version
+        condition: failed()
+
         inputs:
           connectionType: 'Kubernetes Service Connection'
           kubernetesServiceEndpoint: 'grocery-list-demo-sc'
