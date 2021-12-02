@@ -140,8 +140,10 @@ stages:
         retryCountOnTaskFailure: 1
         timeoutInMinutes: 120
         inputs:
-          notifyUsers: vitali.maximov@endava.com
-          instructions: Please review and approve the release
+          notifyUsers: |
+            nicolae.nicolaev@endava.com
+            vitali.maximov@endava.com
+          instructions: Please review and approve the fronend release
 
     - job: Deploy
       displayName: Deploy to demo-AKS job
