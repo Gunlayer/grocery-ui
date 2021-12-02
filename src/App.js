@@ -10,6 +10,7 @@ import RegistrationPage from './pages/registration/RegistrationPage';
 import CartPage from './pages/cart/CartPage';
 import ProductDetailsPage from './pages/productDetails/ProductDetailsPage';
 import AdminPanelPage from './pages/adminPanel/AdminPanelPage';
+import CheckoutPage from './pages/checkout/CheckoutPage';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -70,6 +71,9 @@ const App = () => {
         </Route>
         <Route exact path="/products/:productId">
           <ProductDetailsPage />
+        </Route>
+        <Route exact path="/checkout">
+          <CheckoutPage />
         </Route>
         <Route
           exact

@@ -1,6 +1,5 @@
 export const emailValidation = (state, setState) => {
-  const regexEmail =
-    /^((\w[^\W]+)[.-]?){1,}@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gm;
+  const regexEmail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/gm;
   const subst = ``;
   const emailMatch = state.email.replace(regexEmail, subst);
 
