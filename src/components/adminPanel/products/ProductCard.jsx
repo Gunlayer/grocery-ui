@@ -189,7 +189,7 @@ const ProductCard = ({ product, numberOfElements }) => {
                     precision={0.1}
                     sx={ratingStarsStyle}
                   />
-                  <Box sx={ratingStyle}>{rating}</Box>
+                  {rating === 0 ? null : <Box sx={ratingStyle}>{rating}</Box>}
                 </Box>
                 <Box>
                   <Box sx={sizeTypesContainerStyle}>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, InputBase, InputAdornment, IconButton } from '@mui/material';
-import { setFilters } from '../../../redux/slices/adminProducts';
+import { setFilters } from '../../../redux/slices/adminUsers';
 import CloseIcon from '@mui/icons-material/Close';
 
 const inputSearchContainerStyle = {
@@ -40,28 +40,28 @@ const debounce = (func, timeout = 500) => {
 const InputSearch = () => {
   const dispatch = useDispatch();
 
-  const name = useSelector((state) => state.adminProducts.filters.name);
+  const email = useSelector((state) => state.adminUsers.filters.email);
 
-  const [inputState, setInputState] = useState(name);
+  const [inputState, setInputState] = useState(email);
 
   useEffect(() => {
-    setInputState(name);
-  }, [name]);
+    setInputState(email);
+  }, [email]);
 
   const handleSearchChange = debounce((e) => {
-    const trimmedName = e.target.value.trim().toLowerCase();
-    if (name !== trimmedName) {
+    const trimmedEmail = e.target.value.trim().toLowerCase();
+    if (email !== trimmedEmail) {
       dispatch(
         setFilters({
           pageNumber: 1,
-          name: trimmedName,
+          email: trimmedEmail,
         })
       );
     }
   });
 
   const clearSearchInput = () => {
-    dispatch(setFilters({ name: '' }));
+    dispatch(setFilters({ email: '' }));
   };
 
   return (
@@ -70,14 +70,14 @@ const InputSearch = () => {
         <InputBase
           fullWidth
           sx={inputBaseStyle}
-          placeholder="Search by product name..."
+          placeholder="Search by email address..."
           onChange={(e) => {
             setInputState(e.target.value);
             handleSearchChange(e);
           }}
           value={inputState}
           endAdornment={
-            name && (
+            email && (
               <InputAdornment sx={{ marginRight: 1 }} position="end">
                 <IconButton onClick={clearSearchInput} edge="end">
                   <CloseIcon />

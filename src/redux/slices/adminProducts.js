@@ -9,8 +9,8 @@ export const initialState = {
   id: null,
   name: '',
   description: '',
-  price: 0,
-  rating: 0,
+  price: '',
+  rating: '',
   sizeType: 'KILOS',
   sizes: [1, 2, 3],
   image: '',
@@ -19,6 +19,7 @@ export const initialState = {
   openDialogRemoveProduct: false,
   removingProduct: { id: null, name: null },
   disabledSaveButton: false,
+  adminProductsError: '',
 };
 
 export const adminProducts = createSlice({
@@ -35,21 +36,22 @@ export const adminProducts = createSlice({
       state.id = null;
       state.name = '';
       state.description = '';
-      state.price = 0;
+      state.price = '';
       state.sizeType = 'KILOS';
       state.sizes = [1, 2, 3];
       state.image = '';
-      state.rating = 0;
+      state.rating = '';
     },
     setEditingProduct: (state, action) => {
       state.id = action.payload?.id;
       state.name = action.payload?.name;
       state.description = action.payload?.description;
-      state.price = +action.payload?.price;
+      state.price = +action.payload?.price === 0 ? '' : action.payload?.price;
       state.sizeType = action.payload?.sizeType;
       state.sizes = action.payload?.sizes;
       state.image = action.payload?.image;
-      state.rating = +action.payload?.rating;
+      state.rating =
+        +action.payload?.rating === 0 ? '' : action.payload?.rating;
     },
     setName: (state, action) => {
       state.name = action.payload;
@@ -87,6 +89,13 @@ export const adminProducts = createSlice({
     setDisabledSaveButton: (state, action) => {
       state.disabledSaveButton = action.payload;
     },
+    setAdminProductsError: (state, action) => {
+      if (action.payload === 'Jwt is invalid') {
+        state.adminProductsError = 'You are not logged in as administrator';
+      } else {
+        state.adminProductsError = action.payload;
+      }
+    },
   },
 });
 
@@ -107,6 +116,7 @@ export const {
   setOpenDialogRemoveProduct,
   setRemovingProduct,
   setDisabledSaveButton,
+  setAdminProductsError,
 } = adminProducts.actions;
 
 export default adminProducts.reducer;

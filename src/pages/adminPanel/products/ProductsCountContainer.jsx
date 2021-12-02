@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
-import ProductsCount from '../../../components/adminPanel/products/ProductsCount';
-import { useFilters } from '../../../hooks/useFilters';
+import ResultsCount from '../../../components/adminPanel/ResultsCount';
+import { useProductsFilters } from '../../../hooks/useProductsFilters';
 
 const productsCountContainerStyle = {
   display: 'flex',
@@ -12,11 +12,15 @@ const productsCountContainerStyle = {
 const ProductsCountContainer = () => {
   const token = useSelector((state) => state.auth.token);
   const filters = useSelector((state) => state.adminProducts.filters);
-  const filteredProducts = useFilters(filters, token);
+  const filteredProducts = useProductsFilters(filters, token);
 
   let text = '';
 
-  if (filters.name === '' && !filteredProducts.isLoading) {
+  if (
+    filters.name === '' &&
+    !filteredProducts.isLoading &&
+    !filteredProducts.isError
+  ) {
     text = `Total products: ${filteredProducts.data?.totalElements}`;
   } else {
     if (filteredProducts.isLoading) {
@@ -24,7 +28,11 @@ const ProductsCountContainer = () => {
     }
 
     if (filteredProducts.isError) {
-      text = 'Nothing found';
+      if (filteredProducts.error.message === 'Jwt is invalid') {
+        text = 'You are not logged in as administrator';
+      } else {
+        text = 'Something went wrong...';
+      }
     }
 
     if (filteredProducts.isSuccess) {
@@ -41,7 +49,7 @@ const ProductsCountContainer = () => {
 
   return (
     <Box sx={productsCountContainerStyle}>
-      <ProductsCount text={text} />
+      <ResultsCount text={text} />
     </Box>
   );
 };

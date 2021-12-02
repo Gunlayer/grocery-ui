@@ -1,7 +1,13 @@
 import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import {
+  Box,
+  Button,
+  InputBase,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
+import { useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 const inputSearchContainerStyle = { display: 'flex', flexGrow: 1 };
 
@@ -18,14 +24,6 @@ const inputBaseContainer = {
 const inputBaseStyle = {
   padding: 1,
   paddingLeft: 2,
-  '& ::-webkit-search-cancel-button': {
-    WebkitAppearance: 'none',
-    height: 24,
-    width: 24,
-    backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>")`,
-    backgroundRepeat: 'no-repeat',
-    cursor: 'pointer',
-  },
 };
 
 const searchIconContainerStyle = {
@@ -38,15 +36,34 @@ const searchIconContainerStyle = {
 const searchIconStyle = { color: 'white', fontSize: '20px' };
 
 const InputSearch = () => {
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const clearSearchInput = () => {
+    setSearchInput('');
+  };
+
   return (
     <Box sx={inputSearchContainerStyle}>
       <Box sx={inputBaseContainer}>
         <InputBase
-          type="search"
           fullWidth
           sx={inputBaseStyle}
           placeholder="Search..."
-          inputProps={{ 'aria-label': 'search' }}
+          onChange={handleSearchInputChange}
+          value={searchInput}
+          endAdornment={
+            searchInput && (
+              <InputAdornment sx={{ marginRight: 1 }} position="end">
+                <IconButton onClick={clearSearchInput} edge="end">
+                  <CloseIcon />
+                </IconButton>
+              </InputAdornment>
+            )
+          }
         />
       </Box>
       <Button

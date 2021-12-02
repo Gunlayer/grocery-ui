@@ -13,7 +13,10 @@ import SizeType from './SizeType';
 import Sizes from './Sizes';
 import Image from './Image';
 import ImageLink from './ImageLink';
-import { setDisabledSaveButton } from '../../../../redux/slices/adminProducts';
+import {
+  setDisabledSaveButton,
+  setAdminProductsError,
+} from '../../../../redux/slices/adminProducts';
 
 const productFormContainerStyle = {
   boxSizing: 'border-box',
@@ -99,7 +102,7 @@ const ProductForm = () => {
   }, []);
 
   useEffect(() => {
-    if (name && !imageError) {
+    if (name.trim() && !imageError) {
       dispatch(setDisabledSaveButton(false));
     } else {
       dispatch(setDisabledSaveButton(true));
@@ -116,25 +119,34 @@ const ProductForm = () => {
       id,
       name,
       description,
-      price,
-      rating,
+      price: price || 0,
+      rating: rating || 0,
       sizeType,
       sizes,
       image,
     };
 
     if (JSON.stringify(prevProduct) !== JSON.stringify(product)) {
-      await axios({
-        method: 'post',
-        url: '/api/products',
-        headers: {
-          Authorization: token,
-        },
-        data: product,
-      });
-    }
-
-    goBack();
+      try {
+        const response = await axios({
+          method: 'post',
+          url: '/api/products',
+          headers: {
+            Authorization: token,
+          },
+          data: product,
+        });
+        if (response.status >= 200 && response.status < 300) {
+          goBack();
+        }
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          if (err && err.response) {
+            dispatch(setAdminProductsError(err.response.data.message));
+          }
+        }
+      }
+    } else goBack();
   };
 
   return (

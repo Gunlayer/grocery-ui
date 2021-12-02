@@ -21,6 +21,8 @@ import UsersContainer from './users/UsersContainer';
 import adminAvatar from '../../assets/admin_avatar.svg';
 import AddNewProductContainer from './products/AddNewProductContainer';
 import EditProductContainer from './products/EditProductContainer';
+import AddNewUserContainer from './users/AddNewUserContainer';
+import EditUserContainer from './users/EditUserContainer';
 
 const drawerWidth = 260;
 const hover = {
@@ -125,6 +127,12 @@ export default function PermanentDrawerLeft() {
             </Route>
             <Route exact path="/admin/products">
               <ProductsContainer setActive={setActive} active={active} />
+            </Route>
+            <Route exact path="/admin/users/addNewUser">
+              <AddNewUserContainer setActive={setActive} newUser={true} />
+            </Route>
+            <Route exact path="/admin/users/:userEmail">
+              <EditUserContainer setActive={setActive} newUser={false} />
             </Route>
             <Route exact path="/admin/users">
               <UsersContainer setActive={setActive} active={active} />

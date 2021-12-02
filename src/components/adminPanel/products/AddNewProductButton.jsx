@@ -7,11 +7,11 @@ const NEW_PRODUCT = {
   id: null,
   description: '',
   name: '',
-  price: 0,
+  price: '',
+  rating: '',
   sizeType: 'KILOS',
   sizes: [1, 2, 3],
   image: '',
-  rating: 0,
 };
 
 const AddNewProductButton = () => {

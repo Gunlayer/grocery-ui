@@ -63,7 +63,7 @@ const NavIconLinksContainer = () => {
   return (
     <Box sx={navIconLinksContainer}>
       <NavIconLink
-        tooltip={email}
+        tooltip={authState ? email : 'Sign in'}
         link={authState ? logOutIcon : accountBoxIcon}
         to={authState ? '/account/logout' : '/account/login'}
         onClick={handleLogOut}

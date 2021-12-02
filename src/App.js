@@ -80,8 +80,11 @@ const App = () => {
           path={[
             '/admin/dashboard',
             '/admin/products',
-            '/admin/users',
+            '/admin/products/addNewProduct',
             '/admin/products/:productId',
+            '/admin/users',
+            '/admin/users/addNewUser',
+            '/admin/users/:userEmail',
           ]}
         >
           <AdminPanelPage />

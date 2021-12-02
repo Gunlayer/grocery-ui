@@ -1,19 +1,17 @@
 export const passwordValidation = (state, setState) => {
   /* eslint-disable no-useless-escape */
   const regexPassword = /^[a-zA-Z0-9!@#$%^&*()_+~`\-=\\\/|[\]{};:'",<.>?]*$/gm;
-  const subst = ``;
-  const passwordMatch = state.password.replace(regexPassword, subst);
 
   if (state.password.trim() === '') {
-    setState({ ...state, errorPassword: 'Please enter password.' });
+    setState({ ...state, errorPassword: 'Please enter password' });
     return false;
   }
 
-  if (passwordMatch.length !== 0) {
+  if (!regexPassword.test(state.password)) {
     setState({
       ...state,
       errorPassword:
-        'Password can only contain english letters, numbers and special characters, and must be at least 5 characters long, maximum 10 characters long.',
+        'Password can only contain english letters, numbers and special characters, and must be at least 5 characters long, maximum 10 characters long',
     });
     return false;
   }
@@ -22,7 +20,7 @@ export const passwordValidation = (state, setState) => {
     setState({
       ...state,
       errorPassword:
-        'Password must be at least 5 characters long, maximum 10 characters long.',
+        'Password must be at least 5 characters long, maximum 10 characters long',
     });
     return false;
   }

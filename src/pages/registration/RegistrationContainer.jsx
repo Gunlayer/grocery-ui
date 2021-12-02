@@ -55,7 +55,7 @@ const RegistrationContainer = () => {
         dispatch(setLoading(true));
 
         const response = await axios.post('/api/registration', {
-          email,
+          email: email.toLowerCase(),
           password,
           cartItems,
           visitorId,

@@ -7,6 +7,7 @@ import InputSearch from '../../../components/adminPanel/products/InputSearch';
 import AddNewProductButton from '../../../components/adminPanel/products/AddNewProductButton';
 import DialogRemoveProduct from '../../../components/adminPanel/products/DialogRemoveProduct';
 import PanelTitle from '../../../components/adminPanel/dashboard/PanelTitle';
+import AdminProductsErrorAlert from './AdminProductsErrorAlert';
 
 const searchAndAddNewProductButtonContainerStyle = {
   display: 'flex',
@@ -24,6 +25,8 @@ const Products = ({ setActive, active }) => {
 
   return (
     <>
+      <AdminProductsErrorAlert />
+
       <DialogRemoveProduct />
 
       <PanelTitle title={'Products'} icon={active} />

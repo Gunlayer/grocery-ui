@@ -57,7 +57,7 @@ const LoginContainer = () => {
         dispatch(setLoading(true));
 
         const response = await axios.post('/api/auth/login', {
-          email,
+          email: email.toLowerCase(),
           password,
           cartItems,
           visitorId,

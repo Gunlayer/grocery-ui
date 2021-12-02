@@ -9,10 +9,10 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setFilters,
-  setOpenDialogRemoveProduct,
-  setAdminProductsError,
-} from '../../../redux/slices/adminProducts';
-import { useProductsFilters } from '../../../hooks/useProductsFilters';
+  setOpenDialogRemoveUser,
+  setAdminUsersError,
+} from '../../../redux/slices/adminUsers';
+import { useUsersFilters } from '../../../hooks/useUsersFilters';
 
 const dialogStyle = {
   paddingLeft: '260px',
@@ -35,53 +35,52 @@ const buttonStyle = {
   margin: '0 10px',
 };
 
-const DialogRemoveProduct = () => {
-  const token = useSelector((state) => state.auth.token);
-  const filters = useSelector((state) => state.adminProducts.filters);
-
-  const openDialogRemoveProduct = useSelector(
-    (state) => state.adminProducts.openDialogRemoveProduct
-  );
-
-  const removingProduct = useSelector(
-    (state) => state.adminProducts.removingProduct
-  );
-
-  const filteredProducts = useProductsFilters(filters, token);
-
+const DialogRemoveUser = () => {
   const dispatch = useDispatch();
 
+  const token = useSelector((state) => state.auth.token);
+  const filters = useSelector((state) => state.adminUsers.filters);
+
+  const openDialogRemoveUser = useSelector(
+    (state) => state.adminUsers.openDialogRemoveUser
+  );
+
+  const removingUser = useSelector((state) => state.adminUsers.removingUser);
+
+  const filteredUsers = useUsersFilters(filters, token);
+
   const numberOfElements = useSelector(
-    (state) => state.adminProducts.numberOfElements
+    (state) => state.adminUsers.numberOfElements
   );
 
   const pageNumber = useSelector(
-    (state) => state.adminProducts.filters.pageNumber
+    (state) => state.adminUsers.filters.pageNumber
   );
 
-  const handleRemoveProduct = async () => {
+  const handleRemoveUser = async () => {
     try {
       const response = await axios({
         method: 'delete',
-        url: `/api/products/${removingProduct.id}`,
+        url: '/api/admin/users',
         headers: {
           Authorization: token,
         },
+        data: removingUser.email,
       });
 
       if (response.status >= 200 && response.status < 300) {
-        dispatch(setOpenDialogRemoveProduct(false));
+        dispatch(setOpenDialogRemoveUser(false));
 
         if (numberOfElements === 1 && pageNumber > 1) {
           dispatch(setFilters({ pageNumber: pageNumber - 1 }));
         }
 
-        filteredProducts.refetch();
+        filteredUsers.refetch();
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err && err.response) {
-          dispatch(setAdminProductsError(err.response.data.message));
+          dispatch(setAdminUsersError(err.response.data.message));
         }
       }
     }
@@ -90,16 +89,19 @@ const DialogRemoveProduct = () => {
   return (
     <Dialog
       sx={dialogStyle}
-      open={openDialogRemoveProduct}
+      open={openDialogRemoveUser}
       onClose={() => {
-        dispatch(setOpenDialogRemoveProduct(false));
+        dispatch(setOpenDialogRemoveUser(false));
       }}
       disableScrollLock
     >
       <DialogContent>
         <DialogContentText align="center">
-          Remove <b>{removingProduct.name}</b> with ID:{' '}
-          <b>{removingProduct.id}</b> from the database?
+          Remove user with email
+          <br />
+          <b>{removingUser.email}</b>
+          <br />
+          from the database?
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={dialogActionsStyle}>
@@ -107,7 +109,7 @@ const DialogRemoveProduct = () => {
           sx={buttonStyle}
           variant="outlined"
           size="small"
-          onClick={handleRemoveProduct}
+          onClick={handleRemoveUser}
         >
           Yes
         </Button>
@@ -116,7 +118,7 @@ const DialogRemoveProduct = () => {
           variant="outlined"
           size="small"
           onClick={() => {
-            dispatch(setOpenDialogRemoveProduct(false));
+            dispatch(setOpenDialogRemoveUser(false));
           }}
           autoFocus
         >
@@ -127,4 +129,4 @@ const DialogRemoveProduct = () => {
   );
 };
 
-export default DialogRemoveProduct;
+export default DialogRemoveUser;

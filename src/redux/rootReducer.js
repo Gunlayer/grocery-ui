@@ -5,6 +5,7 @@ import registration from './slices/registrationSlice';
 import cart from './slices/cartSlice';
 import checkout from './slices/checkoutSlice';
 import adminProducts from './slices/adminProducts';
+import adminUsers from './slices/adminUsers';
 
 const rootReducer = combineReducers({
   auth,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   cart,
   checkout,
   adminProducts,
+  adminUsers,
 });
 
 export default rootReducer;

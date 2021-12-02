@@ -1,17 +1,15 @@
 export const emailValidation = (state, setState) => {
-  const regexEmail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/gm;
-  const subst = ``;
-  const emailMatch = state.email.replace(regexEmail, subst);
+  const regexEmail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
   if (state.email.trim() === '') {
-    setState({ ...state, errorEmail: 'Please enter e-mail address.' });
+    setState({ ...state, errorEmail: 'Please enter e-mail address' });
     return false;
   }
 
-  if (emailMatch.length !== 0) {
+  if (!regexEmail.test(state.email)) {
     setState({
       ...state,
-      errorEmail: 'Please provide correct e-mail address.',
+      errorEmail: 'Please provide correct e-mail address',
     });
     return false;
   }
@@ -20,7 +18,7 @@ export const emailValidation = (state, setState) => {
     setState({
       ...state,
       errorEmail:
-        'Email address must be at least 5 characters long, maximum 35 characters long.',
+        'Email address must be at least 5 characters long, maximum 35 characters long',
     });
     return false;
   }

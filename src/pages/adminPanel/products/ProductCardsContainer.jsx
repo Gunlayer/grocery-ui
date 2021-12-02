@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
-import { useFilters } from '../../../hooks/useFilters';
+import { useProductsFilters } from '../../../hooks/useProductsFilters';
 import ProductCard from '../../../components/adminPanel/products/ProductCard';
 import Spinner from '../../../components/common/Spinner';
 
@@ -27,7 +27,7 @@ const ProductCardsContainer = () => {
   const token = useSelector((state) => state.auth.token);
   const filters = useSelector((state) => state.adminProducts.filters);
 
-  const filteredProducts = useFilters(filters, token);
+  const filteredProducts = useProductsFilters(filters, token);
 
   if (filteredProducts.isLoading) {
     return <Spinner />;

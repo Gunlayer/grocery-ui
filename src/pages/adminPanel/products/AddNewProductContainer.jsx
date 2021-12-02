@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import ProductForm from '../../../components/adminPanel/products/editAndAddNewProduct/ProductForm';
+import AdminProductsErrorAlert from './AdminProductsErrorAlert';
 
 const AddNewProductContainer = ({ setActive }) => {
   useEffect(() => {
@@ -12,6 +13,11 @@ const AddNewProductContainer = ({ setActive }) => {
     });
   });
 
-  return <ProductForm />;
+  return (
+    <>
+      <AdminProductsErrorAlert />
+      <ProductForm />
+    </>
+  );
 };
 export default AddNewProductContainer;
