@@ -1,6 +1,6 @@
 import { Typography, Box, Divider } from '@mui/material';
 import { React, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import ContactInformation from './ContactInformation';
 import SaveInformation from './SaveInformation';
 import ShippingAddress from './ShippingAddress';
@@ -9,10 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { emailValidation } from '../../helpers/emailValidation';
 import axios from 'axios';
 import { anyString255Validation } from '../../helpers/anyString255Validation';
-import { setIsChecked } from '../../redux/slices/checkoutSlice';
-import { setDataInDb } from '../../redux/slices/checkoutSlice';
+import { setIsChecked, setDataInDb } from '../../redux/slices/checkoutSlice';
 import { rewriteCart } from '../../redux/slices/cartSlice';
-import { useHistory } from 'react-router-dom';
 import AccordionComponent from './AccordionComponent';
 
 const mainStyle = {

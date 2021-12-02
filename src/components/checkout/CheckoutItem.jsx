@@ -1,5 +1,4 @@
 import { Badge, CardMedia, Typography, Box } from '@mui/material';
-import React from 'react';
 
 const imageStyle = {
   width: '64px',

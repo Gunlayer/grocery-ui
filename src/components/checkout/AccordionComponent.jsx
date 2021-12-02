@@ -9,8 +9,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import React from 'react';
-import { useState } from 'react';
+import { React, useState } from 'react';
 import { itemsStyle } from './Sidebar';
 import CheckoutItem from './CheckoutItem';
 
