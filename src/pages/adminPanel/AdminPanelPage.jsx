@@ -1,3 +1,11 @@
+import { useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -6,34 +14,22 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
-import Dashboard from '../../components/adminPanel/dashboard/Dashboard';
-import Products from '../../components/adminPanel/products/Products';
-import Users from '../../components/adminPanel/users/Users';
-import adminAvatar from '../../assets/admin_avatar.svg';
-import { useState } from 'react';
+import DashboardContainer from './dashboard/DashboardContainer';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+import ProductsContainer from './products/ProductsContainer';
+import UsersContainer from './users/UsersContainer';
+import adminAvatar from '../../assets/admin_avatar.svg';
+import AddNewProductContainer from './products/AddNewProductContainer';
+import EditProductContainer from './products/EditProductContainer';
 
 const drawerWidth = 260;
+const hover = {
+  backgroundColor: 'rgba(255, 255, 255, 0.5)',
+};
 
 export default function PermanentDrawerLeft() {
   const [active, setActive] = useState('dashboard');
-  const token = useSelector((state) => state.auth.token);
-
-  const getData = async () => {
-    const response = await axios({
-      method: 'GET',
-      url: '/api/admin',
-      headers: { Authorization: token },
-    });
-  };
+  const email = useSelector((state) => state.auth.email);
 
   return (
     <Router>
@@ -56,38 +52,59 @@ export default function PermanentDrawerLeft() {
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
-              padding: 2,
+              padding: '6px',
             }}
           >
             <Box component="img" src={adminAvatar} width={50} />
-            <Typography>admin@endava.com</Typography>
+            <Typography color="white">{email}</Typography>
           </Box>
           <List>
-            <Link to="/admin/dashboard">
+            <Link
+              to="/admin/dashboard"
+              style={{
+                textDecoration: 'none',
+                color: active === 'dashboard' ? '#444444' : 'white',
+              }}
+            >
               <ListItem
                 button
                 sx={{
                   backgroundColor: active === 'dashboard' ? 'white' : '#444444',
+                  '&:hover': hover,
                 }}
               >
                 <ListItemText primary="Dashboard" />
               </ListItem>
             </Link>
-            <Link to="/admin/products">
+            <Link
+              to="/admin/products"
+              style={{
+                textDecoration: 'none',
+                color: active === 'products' ? '#444444' : 'white',
+              }}
+            >
               <ListItem
                 button
                 sx={{
                   backgroundColor: active === 'products' ? 'white' : '#444444',
+                  '&:hover': hover,
                 }}
               >
                 <ListItemText primary="Products" />
               </ListItem>
             </Link>
-            <Link to="/admin/users">
+            <Link
+              to="/admin/users"
+              style={{
+                textDecoration: 'none',
+                color: active === 'users' ? '#444444' : 'white',
+              }}
+            >
               <ListItem
                 button
                 sx={{
                   backgroundColor: active === 'users' ? 'white' : '#444444',
+                  '&:hover': hover,
                 }}
               >
                 <ListItemText primary="Users" />
@@ -98,13 +115,19 @@ export default function PermanentDrawerLeft() {
         <Box sx={{ flexGrow: 1 }}>
           <Switch>
             <Route exact path="/admin/dashboard">
-              <Dashboard setActive={setActive} />
+              <DashboardContainer setActive={setActive} active={active} />
+            </Route>
+            <Route exact path="/admin/products/addNewProduct">
+              <AddNewProductContainer setActive={setActive} />
+            </Route>
+            <Route exact path="/admin/products/:productId">
+              <EditProductContainer setActive={setActive} />
             </Route>
             <Route exact path="/admin/products">
-              <Products setActive={setActive} />
+              <ProductsContainer setActive={setActive} active={active} />
             </Route>
             <Route exact path="/admin/users">
-              <Users setActive={setActive} />
+              <UsersContainer setActive={setActive} active={active} />
             </Route>
             <Route path="/admin">
               <Redirect to="/admin/dashboard" />

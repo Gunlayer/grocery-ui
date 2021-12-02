@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-const Users = ({ setActive }) => {
+const UsersContainer = ({ setActive }) => {
   useEffect(() => {
     setActive('users');
   }, [setActive]);
   return <div>Users</div>;
 };
 
-export default Users;
+export default UsersContainer;

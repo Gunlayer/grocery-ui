@@ -11,8 +11,49 @@ import CartPage from './pages/cart/CartPage';
 import ProductDetailsPage from './pages/productDetails/ProductDetailsPage';
 import AdminPanelPage from './pages/adminPanel/AdminPanelPage';
 import CheckoutPage from './pages/checkout/CheckoutPage';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsAuth, setVisitorId } from './redux/slices/authSlice';
+import axios from 'axios';
 
 const App = () => {
+  const token = useSelector((state) => state.auth.token);
+  const email = useSelector((state) => state.auth.email);
+  const dispatch = useDispatch();
+
+  const getUniqueVisitorId = (visitorId) => {
+    axios({
+      method: 'POST',
+      url: '/api/dashboard/visitor',
+      data: { visitorId },
+    });
+  };
+
+  useEffect(() => {
+    // Initialize an agent at application startup.
+    const fpPromise = FingerprintJS.load();
+
+    (async () => {
+      // Get the visitor identifier when you need it.
+      const fp = await fpPromise;
+      const result = await fp.get();
+
+      // This is the visitor identifier:
+      const visitorId = result.visitorId;
+      dispatch(setVisitorId(visitorId));
+      if (!localStorage.visitorId) {
+        localStorage.setItem('visitorId', visitorId);
+        getUniqueVisitorId(visitorId);
+        console.log(visitorId);
+      }
+    })();
+
+    if (token) {
+      dispatch(setIsAuth({ token, email, isAuth: true }));
+    }
+    // eslint-disable-next-line
+  }, []);
   return (
     <Router>
       <Switch>
@@ -36,7 +77,12 @@ const App = () => {
         </Route>
         <Route
           exact
-          path={['/admin/dashboard', '/admin/products', '/admin/users']}
+          path={[
+            '/admin/dashboard',
+            '/admin/products',
+            '/admin/users',
+            '/admin/products/:productId',
+          ]}
         >
           <AdminPanelPage />
         </Route>
