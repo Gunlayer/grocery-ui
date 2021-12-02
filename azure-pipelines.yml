@@ -2,7 +2,7 @@
 variables:
   - group: grocery-list
   - name: buildTag
-    value: $(Date:yyyyMMdd).$(Build.BuildId)
+    value: $(Build.SourceBranch).$(Build.BuildId)
   - name: BuildParameters.dockerFile
     value: '**/Dockerfile'
   - name: isMain
@@ -56,7 +56,7 @@ stages:
         customCommand: image rm gr-list-test -f
 
 - stage: Build_N_Push
-  condition: or(eq(variables.isMain, 'true'), eq(variables.isRelease, 'true'))
+  condition: eq(variables.isMain, 'true')
   displayName: 'Run build and push image to ACR'
 
   jobs:
@@ -99,7 +99,7 @@ stages:
 
 - stage: Deploy2dev
   dependsOn: Build_N_Push
-  condition: eq(variables.isMain, 'true')
+  condition: and(succeeded('Build_N_Push'), eq(variables.isMain, 'true'))
   displayName: Deploy to AKS dev
 
   jobs:
@@ -123,13 +123,14 @@ stages:
 
 - stage: Deploy2demo
   dependsOn: Deploy2dev
-  condition: eq(variables.isMain, 'true')
+  condition: and(succeeded('Deploy2dev'), eq(variables.isMain, 'true'))
   displayName: Deploy to AKS demo
 
   jobs:
 
     - job: Validation 
       displayName: Manual validation job
+      continueOnError: false
       pool: server
       timeoutInMinutes: 1440
 
@@ -144,6 +145,7 @@ stages:
 
     - job: Deploy
       displayName: Deploy to demo-AKS job
+      dependsOn: Validation
       pool: Default
     
       steps:
@@ -172,7 +174,6 @@ stages:
           azureSubscriptionEndpointForSecrets: 'MDDInternship_GroceryList'
           azureContainerRegistry: 'mddinternship2021h2project.azurecr.io'
           forceUpdate: false
-          checkLatest: true
 
       - task: Kubernetes@1
         displayName: rollback to previous version 
@@ -187,4 +188,3 @@ stages:
           azureSubscriptionEndpointForSecrets: 'MDDInternship_GroceryList'
           azureContainerRegistry: 'mddinternship2021h2project.azurecr.io'
           forceUpdate: false
-          checkLatest: true
