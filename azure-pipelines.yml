@@ -163,7 +163,8 @@ stages:
           containers: mddinternship2021h2project.azurecr.io/grocery-shop-ui:$(buildTag)
     
       - task: Kubernetes@1
-        displayName: check demo deployment status 
+        displayName: check demo deployment status
+        condition: succeededOrFailed()
 
         inputs:
           connectionType: 'Kubernetes Service Connection'
